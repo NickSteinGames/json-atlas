@@ -1,6 +1,6 @@
 @tool
 extends AtlasTexture
-class_name JSONAtalsTexture
+class_name JSONAtlasTexture
 
 @export var frame: String: ## Frame, what be rendered.
 	set = set_frame
