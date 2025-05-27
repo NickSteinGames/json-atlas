@@ -31,7 +31,7 @@ class_name JSONAtlasTexture
 		else: old_json.changed.disconnect(_update_json)
 		
 
-@export_storage var frames: Dictionary[String, Rect2i]
+@export_storage var frames: Dictionary
 
 ## Loads JSON and gets a Frames data.
 func _load_json():
