@@ -13,7 +13,7 @@ It allows you to use '.json` files that are created when exporting sprite sheets
   - [ ] A completely independent class `JSONAtlas...` (without inheriting `AtlasTexture`)
 
 ## How to use?
-First, download the plugin (from AssetLib, or through cloning this repository).
+First, download the plugin (from [AssetLib](https://godotengine.org/asset-library/asset/4058), or through cloning this repository).
 You don't need to enable anything, the "plugin" is 1 script defining a new class: `JSONAtlasTexture`.
 Just open any property of the `Texture2D` type and select `JSONAtlasTexture` in the list of creating a new resource (it should be located directly under the original `AtlasTexture`)
 After that, expand the `Data` group and drag `.png` (or any other image type supported by the engine) to `source_image` property and the Atlas itself will take the `.json` file.
