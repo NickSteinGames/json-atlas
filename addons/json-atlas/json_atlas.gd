@@ -4,6 +4,9 @@ extends AtlasTexture
 ## associated [JSON] [member json_file].
 class_name JSONAtlasTexture
 
+## Signal emitted once the [member frames] have been populated.
+signal frames_compiled
+
 ## The name of the Frame that will be rendered.
 @export var frame: String: set = set_frame
 
@@ -44,6 +47,8 @@ func set_json_file(given_file: JSON) -> void:
 
 ## Set current [member frame] to the given [String] [param new_frame].
 func set_frame(new_frame: String) -> void:
+	if frames.is_empty():
+		await frames_compiled
 	if !frames.has(new_frame):
 		printerr("Frame \""+new_frame+"\" not found!")
 		return
@@ -60,19 +65,20 @@ func _load_json() -> void:
 		return
 	frames.clear()
 	var data: Dictionary = json_file.data
-	for frm: int in json_file.data.frames:
+	for frm: String in json_file.data.frames:
 		frames[frm] = Rect2i(
 			data.frames[frm].frame.x,
 			data.frames[frm].frame.y,
 			data.frames[frm].frame.w,
 			data.frames[frm].frame.h,
 		)
+	frames_compiled.emit()
 
 ## Creates a [String] hint-string of frame titles.
 ## [br]Used for the [member frame]'s export property, see [method _validate_property].
 func _get_frames_hint_string() -> String:
 	var result: String = ""
-	for frm in frames.keys():
+	for frm: String in frames.keys():
 		if result:
 			result += ",%s" % frm
 		else:
