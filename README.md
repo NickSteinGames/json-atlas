@@ -3,6 +3,8 @@
 This is a small class based on AtlasTexture built into the Godot Engine.
 It allows you to use '.json` files that are created when exporting sprite sheets (to Adobe Animate or Aseprite, for example).
 
+Special thanks to @pikuler for adding build-in documentation and litle fixes! 
+
 ## Features
   - [x] Selecting the displayed `frame` through the `enumeration list`
   - [x] Automatic loading of a `JSON file` when an `image file` is selected.
