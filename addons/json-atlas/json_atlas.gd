@@ -10,24 +10,34 @@ signal frames_compiled
 ## The name of the Frame that will be rendered.
 @export var frame: String: set = set_frame
 
-@export_group("Data")
 ## The source [Texture2D] image from which the image will be taken for output.
 @export var source_image: Texture2D: set = set_source_image
-		
-## [JSON] file with the atlas data for the [member source_image].
-@export var json_file: JSON: set = set_json_file
+## Scale of image. (can be useful for pixel art in the [Theme])
+@export_range(1, 10.0, 0.01, "or_greater") var source_image_scale: float = 1.0:
+	set = set_image_scale
 
+const IGNOR_MIN_SCALE: bool = false
+
+#region Storage
+## [JSON] file with the atlas data for the [member source_image].
+@export_storage var json_file: JSON: set = set_json_file
 ## Stores the [Rect2i] frames to be used within the animation.
 @export_storage var frames: Dictionary#[String, Rect2i]
+## Fully finished image (with applied [member source_image_scale]) whats sets [member AtlasTexture.atlas]
+@export_storage var _image: ImageTexture:
+	set = _set_image
+#endregion
+
+
 
 ## Sets the [member source_image] to the given [Texture2D] [param given_image].
 func set_source_image(given_image: Texture2D) -> void:
 	source_image = given_image
-	atlas = given_image
 	if given_image:
 		var path: String = source_image.resource_path.replace(source_image.resource_path.get_extension(), "json")
 		if FileAccess.file_exists(path):
 			json_file = load(path)
+			_update_image()
 		else:
 			printerr("JSON file for `%s` doesn`t exist!" % source_image.resource_path.get_file())
 	else:
@@ -53,7 +63,15 @@ func set_frame(new_frame: String) -> void:
 		printerr("Frame \""+new_frame+"\" not found!")
 		return
 	frame = new_frame
-	region = frames[frame]
+	region = _multiply_rect(frames[frame], source_image_scale)
+
+func set_image_scale(new_scale: float):
+	if new_scale < 1 && !IGNOR_MIN_SCALE:
+		source_image_scale = 1
+		printerr("Setting the scale value below 1 may not lead to a very good result!\nIf you still want to set the value to <1, you can change the `IGNOR_MIN_SCALE` constant in the `res://addons/json-atlas/json_atlas.gd` to remove the limits.")
+	else:
+		source_image_scale = new_scale
+	_update_image()
 
 ## Loads the [member json_file] and gets frame data.
 func _load_json() -> void:
@@ -74,6 +92,11 @@ func _load_json() -> void:
 		)
 	frames_compiled.emit()
 
+## Sets [member _image]
+func _set_image(new_image: ImageTexture):
+	_image = new_image
+	atlas = _image
+
 ## Creates a [String] hint-string of frame titles.
 ## [br]Used for the [member frame]'s export property, see [method _validate_property].
 func _get_frames_hint_string() -> String:
@@ -89,6 +112,14 @@ func _get_frames_hint_string() -> String:
 func _update_json() -> void:
 	json_file = load(json_file.resource_path)
 
+func _update_image():
+	var img = source_image.get_image().duplicate()
+	img.resize(source_image.get_width() * source_image_scale, source_image.get_height() * source_image_scale, Image.INTERPOLATE_NEAREST)
+	_image = ImageTexture.create_from_image(img)
+	set_frame(frame)
+	
+	#print_debug("%s -> %s" % [source_image.get_size(), img.get_size()])
+
 func _validate_property(property: Dictionary) -> void:
 	match property.name:
 		"frame":
@@ -97,3 +128,12 @@ func _validate_property(property: Dictionary) -> void:
 		# Hiding default [AtlasTexture] properties.
 		"atlas", "region":
 			property.usage = PROPERTY_USAGE_NO_EDITOR
+
+
+
+## Multiplies [param rect] by the [param amount] number.
+func _multiply_rect(rect: Rect2i, amount: float = 1.0) -> Rect2i:
+	return Rect2i(
+		rect.position * amount,
+		rect.size * amount
+	)
