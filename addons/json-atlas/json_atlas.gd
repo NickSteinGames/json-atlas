@@ -16,6 +16,7 @@ signal frames_compiled
 @export_range(1, 10.0, 0.01, "or_greater") var source_image_scale: float = 1.0:
 	set = set_image_scale
 
+## If you need removing a limit to >=1 [member source_image_sacel]
 const IGNOR_MIN_SCALE: bool = false
 
 #region Storage
