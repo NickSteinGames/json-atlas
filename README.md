@@ -38,4 +38,6 @@ After that, expand the `Data` group and drag `.png` (or any other image type sup
 > [!CAUTION]
 > The script only supports atlases exported so that the `frames` element is a dictionary (`{}`), arrays are not supported yet.
 
+## known issues
+- JSON is not updated automatically ([#2](https://github.com/NickSteinGames/json-atlas/issues/2#issue-3105885503))
 
