@@ -1,0 +1,9 @@
+[gd_resource type="AtlasTexture" script_class="JSONAtlasTexture" load_steps=2 format=3 uid="uid://6j72iek64kou"]
+
+[ext_resource type="Script" uid="uid://uslfflqumtdg" path="res://addons/json-atlas/Scripts/json_atlas.gd" id="1_7grge"]
+
+[resource]
+script = ExtResource("1_7grge")
+frame = ""
+source_image_scale = 1.0
+frames = {}

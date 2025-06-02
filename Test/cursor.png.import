@@ -3,11 +3,12 @@
 importer="atlas.json"
 type="JSONAtlasTexture"
 uid="uid://cq6yi2oun2wtf"
-valid=false
+path="res://.godot/imported/cursor.png-ddec38a07adbe3685588c91c970e1db1.res"
 
 [deps]
 
 source_file="res://Test/cursor.png"
+dest_files=["res://.godot/imported/cursor.png-ddec38a07adbe3685588c91c970e1db1.res"]
 
 [params]
 

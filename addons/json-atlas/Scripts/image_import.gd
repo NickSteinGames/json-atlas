@@ -29,7 +29,7 @@ func _get_import_options(path: String, preset_index: int):
 	return [
 		{
 			"name": "folder",
-			"default_value": path.get_base_dir() + "/" + path.get_file().replace("." + path.get_extension(), ""),
+			"default_value": path.get_base_dir(),
 			"property_hint": PROPERTY_HINT_DIR,
 		},
 		{
