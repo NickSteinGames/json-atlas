@@ -8,6 +8,7 @@ Special thanks to @pikuler for adding build-in documentation and litle fixes!
 ## Features
   - [x] Selecting the displayed `frame` through the `enumeration list`
   - [x] Automatic loading of a `JSON file` when an `image file` is selected.
+  - [x] Scaling the source image (Useful for `pixel-art` or `small resolution` styles
 ### Planned
   - [ ] Supporting a `frames` as `Array`.
 ### Planned (but not guaranteed)
@@ -38,4 +39,6 @@ After that, expand the `Data` group and drag `.png` (or any other image type sup
 > [!CAUTION]
 > The script only supports atlases exported so that the `frames` element is a dictionary (`{}`), arrays are not supported yet.
 
+## known issues
+- JSON is not updated automatically ([#2](https://github.com/NickSteinGames/json-atlas/issues/2#issue-3105885503))
 

@@ -1,10 +1,15 @@
+*.rar
+
 # Godot 4+ specific ignores
 .godot/
+project.godot
 
 # Godot-specific ignores
 .import/
 export.cfg
 export_presets.cfg
+
+*.uid
 
 # Imported translations (automatically generated from CSV files)
 *.translation
@@ -13,3 +18,7 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+icon.svg
+icon.svg.import
+icon.png.import
+.editorconfig
