@@ -1,0 +1,17 @@
+[remap]
+
+importer="atlas.json"
+type="JSONAtlasTexture"
+uid="uid://cq6yi2oun2wtf"
+valid=false
+
+[deps]
+
+source_file="res://Test/cursor.png"
+
+[params]
+
+folder="res://Test/Cursor"
+image_scale=1.0
+ignoring_pattern=""
+ignoring_frames=[]

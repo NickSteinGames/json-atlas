@@ -4,7 +4,7 @@ extends EditorPlugin
 var image_import: EditorImportPlugin
 
 func _enter_tree() -> void:
-	image_import = preload("res://addons/json-atlas/Scripts/image_import.gd").new()
+	image_import = preload("Scripts/image_import.gd").new()
 	add_import_plugin(image_import)
 
 
