@@ -2,6 +2,8 @@
 extends EditorImportPlugin
 
 var json: JSON
+var image_path: String
+var has_json: bool
 
 func _get_importer_name():
 	return "atlas.json"
@@ -13,7 +15,7 @@ func _get_recognized_extensions() -> PackedStringArray:
 	return PackedStringArray(["png", "jpeg", "jpg", "webp"])
 
 func _get_save_extension() -> String:
-	return "res"
+	return "png"
 
 func _get_resource_type() -> String:
 	return "JSONAtlasTexture"
@@ -21,10 +23,14 @@ func _get_resource_type() -> String:
 func _get_preset_count() -> int:
 	return 1
 
+func _get_import_order() -> int:
+	return 1
+
 func _get_preset_name(preset_index: int):
 	return "Default"
 
 func _get_import_options(path: String, preset_index: int):
+	image_path = path
 	get_json(path)
 	return [
 		{
@@ -56,6 +62,9 @@ func _get_option_visibility(path: String, option_name: StringName, options: Dict
 	return true
 
 func _import(source_file: String, save_path: String, options: Dictionary, platform_variants: Array[String], gen_files: Array[String]) -> Error:
+	var source_err = ResourceSaver.save(load(source_file), save_path + "." + source_file.get_extension())
+	if source_err != OK: return source_err
+	
 	var result: Array[JSONAtlasTexture]
 	var source_image: ImageTexture = load(source_file)
 	var imported_frames: PackedStringArray = PackedStringArray(json.data.frames.keys())
@@ -81,16 +90,23 @@ func _get_priority() -> float:
 	return 1.0
 
 func get_json(path: String):
-	json = load(path.replace(
-		path.get_extension(),
-		"json"
-	))
+	var json_path: String =  path.replace(
+			path.get_extension(),
+			"json"
+		)
+	if FileAccess.file_exists(json_path):
+		json = load(json_path)
+		has_json = true
+	else:
+		printerr("JSON for `%s` not found!" % [path.get_file()])
 
 func _get_frames_hint_string() -> String:
-	var result: String = ""
-	
-	for frame: String in json.data.frames:
-		if result: result += ",%s" % frame
-		else: result = frame
-	
-	return result
+	if has_json:
+		var result: String = ""
+		
+		for frame: String in json.data.frames:
+			if result: result += ",%s" % frame
+			else: result = frame
+		
+		return result
+	return ""
