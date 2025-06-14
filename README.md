@@ -1,44 +1,75 @@
-# JSONAtlasTexture
-## About
-This is a small class based on AtlasTexture built into the Godot Engine.
-It allows you to use '.json` files that are created when exporting sprite sheets (to Adobe Animate or Aseprite, for example).
+# AtlasTextureJSON
 
-Special thanks to @pikuler for adding build-in documentation and litle fixes! 
+<p align="center">
+	<img src="icon.png" alt="AtlasTexture JSON Icon">
+</p>
+
+## About
+
+Custom class for the Godot Engine based on `AtlasTexture`.
+This class uses the `.json` files that are created when exporting sprite sheets to compile Symbols / Tags and their respective frames to create a sprite.
+
+Currently supported sprite sheet formats:
+- Aseprite
+- Adobe Animate / Flash
 
 ## Features
-  - [x] Selecting the displayed `frame` through the `enumeration list`
-  - [x] Automatic loading of a `JSON file` when an `image file` is selected.
-  - [x] Scaling the source image (Useful for `pixel-art` or `small resolution` styles
-### Planned
-  - [ ] Supporting a `frames` as `Array`.
-### Planned (but not guaranteed)
-  - [ ] The function of automatic atlases creation via `Impor Tab`
-  - [ ] A completely independent class `JSONAtlas...` (without inheriting `AtlasTexture`)
 
-## How to use?
-First, download the plugin (from [AssetLib](https://godotengine.org/asset-library/asset/4058), or through cloning this repository).
-You don't need to enable anything, the "plugin" is 1 script defining a new class: `JSONAtlasTexture`.
-Just open any property of the `Texture2D` type and select `JSONAtlasTexture` in the list of creating a new resource (it should be located directly under the original `AtlasTexture`)
-After that, expand the `Data` group and drag `.png` (or any other image type supported by the engine) to `source_image` property and the Atlas itself will take the `.json` file.
+- [x] Automatic loading of a `.json` file when the `texture` is loaded.
+- [x] Support for both Hash and Array-based `.json` formats.
+- [x] Aseprite's Tags and Adobe Animate / Flash's Symbols seperated in sections through the `symbol` property.
+- [x] Texture scaling through a `scale` property within the `AtlasTextureJSON`.
+  - [x] Customisable scale interpolation via `scale_behaviour` property.
+- [x] Customisable `frame` looping behaviour via `frame_behaviour` property.
+
+### Planned
+
+- [ ] Aseprite custom formatting options.
+
+### Tentative
+
+- [ ] Custom offsets on symbols. 
+- [ ] Automatic Atlas creation with presets via the `Import` tab.
+- [ ] A completely independent class `TextureJSON` (without inheriting `AtlasTexture`).
+
+## Instructions
+
+1. Download the plugin (from [AssetLib](https://godotengine.org/asset-library/asset/4058), or through cloning this repository).
+2. No enabling required, this "plugin" is really just a script that adds a new class to your project.
+3. Create a new resource instance of `AtlasTextureJSON` on any `Texture2D`-based property.
+4. Load your source image into the `texture` property of the resource.
+5. Select the sprite and frame you want via the `symbol` and `frame` properties.
+
+### Exporting
+
 > [!IMPORTANT]
-> `.json` file must have EXACTLY the SAME name as the image from which the original image will be taken.
-> for example:\
-> ✅✅✅
+> When Exporting from __Aseprite__,
+>The `Item Filename` format must be:
+>```
+> {tag}{tagframe0000}
+>```
+
+> [!IMPORTANT]
+> The `.json` file must have __the same base name__ as your texture image.
+>
+> ✅ YES:
 > ```go
 > 📁Sprites
->   ├─ 🎨 my_sprite.png
->   └─ 📃 my_sprite.json
+>   ├─ 🎨 sprite.png
+>   └─ 📃 sprite.json
 > ```
-> ❌❌❌
+> ❌ NO:
 > ```go
 > 📁Sprites
 >   ├─ 🎨 sprite_image.png
 >   └─ 📃 sprite_json_data.json
 > ```
 
-> [!CAUTION]
-> The script only supports atlases exported so that the `frames` element is a dictionary (`{}`), arrays are not supported yet.
+## Issues
 
-## known issues
-- JSON is not updated automatically ([#2](https://github.com/NickSteinGames/json-atlas/issues/2#issue-3105885503))
+- JSON file is not updated automatically ([#2](https://github.com/NickSteinGames/json-atlas/issues/2#issue-3105885503))
 
+## Major Contributors
+
+- [@NickStienGames](https://github.com/NickSteinGames)
+- [@pikuler](https://github.com/pikuler)
