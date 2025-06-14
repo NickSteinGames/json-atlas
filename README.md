@@ -7,7 +7,7 @@
 ## About
 
 Custom class for the Godot Engine based on `AtlasTexture`.
-This class uses the `.json` files that are created when exporting sprite sheets to compile Symbols/Tags and their respective frames to create a sprite.
+This class uses the `.json` files that are created when exporting sprite sheets to compile Symbols / Tags and their respective frames to create a sprite.
 
 Currently supported sprite sheet formats:
 - Aseprite
@@ -18,7 +18,7 @@ Currently supported sprite sheet formats:
 - [x] Automatic loading of a `.json` file when the `texture` is loaded.
 - [x] Aseprite's Tags and Adobe Animate / Flash's Symbols seperated in sections through the `symbol` property.
 - [x] Texture scaling through a `scale` property within the `JSONAtlasTexture`.
- - [x] Customisable scale interpolation via `scale_behaviour` property.
+  - [x] Customisable scale interpolation via `scale_behaviour` property.
 - [x] Customisable `frame` looping behaviour via `frame_behaviour` property.
 
 ### Planned
@@ -40,7 +40,7 @@ Currently supported sprite sheet formats:
 
 > [!IMPORTANT]
 > The `.json` file must have THE SAME BASE NAME as your texture image.
-> for example:\
+>
 > ✅ YES:
 > ```go
 > 📁Sprites
@@ -60,5 +60,5 @@ Currently supported sprite sheet formats:
 
 ## Major Contributors
 
-@NickStienGames
-@pikuler
+- @NickStienGames
+- @pikuler
