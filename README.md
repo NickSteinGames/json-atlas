@@ -69,5 +69,5 @@ Currently supported sprite sheet formats:
 
 ## Major Contributors
 
-- @NickStienGames
-- @pikuler
+- [@NickStienGames](https://github.com/NickSteinGames)
+- [@pikuler](https://github.com/pikuler)
