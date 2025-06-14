@@ -48,7 +48,7 @@ Currently supported sprite sheet formats:
 >```
 
 > [!IMPORTANT]
-> The `.json` file must have THE SAME BASE NAME as your texture image.
+> The `.json` file must have __the same base name__ as your texture image.
 >
 > ✅ YES:
 > ```go
