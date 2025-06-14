@@ -15,28 +15,28 @@ Currently supported sprite sheet formats:
 
 ## Features
 
-	- [x] Automatic loading of a `.json` file when the `texture` is loaded.
-	- [x] Aseprite's Tags and Adobe Animate / Flash's Symbols seperated in sections through the `symbol` property.
-	- [x] Texture scaling through a `scale` property within the `JSONAtlasTexture`.
-		- [x] Customisable scale interpolation via `scale_behaviour` property.
-	- [x] Customisable `frame` looping behaviour via `frame_behaviour` property.
+- [x] Automatic loading of a `.json` file when the `texture` is loaded.
+- [x] Aseprite's Tags and Adobe Animate / Flash's Symbols seperated in sections through the `symbol` property.
+- [x] Texture scaling through a `scale` property within the `JSONAtlasTexture`.
+ - [x] Customisable scale interpolation via `scale_behaviour` property.
+- [x] Customisable `frame` looping behaviour via `frame_behaviour` property.
 
 ### Planned
 
-	- [ ] Aseprite custom formatting options.
+- [ ] Aseprite custom formatting options.
 
 ### Tentative
 
-	- [ ] Automatic Atlas creation with presets via the `Import` tab.
-	- [ ] A completely independent class `JSONTexture` (without inheriting `AtlasTexture`).
+- [ ] Automatic Atlas creation with presets via the `Import` tab.
+- [ ] A completely independent class `JSONTexture` (without inheriting `AtlasTexture`).
 
 ## Instructions
 
-	1. Download the plugin (from [AssetLib](https://godotengine.org/asset-library/asset/4058), or through cloning this repository).
-	2. No enabling required, this "plugin" is really just a script that adds a new class to your project.
-	3. Create a new resource instance of `JSONAtlasTexture` on any `Texture2D`-based property.
-	4. Load your source image into the `texture` property of the resource.
-	5. Select the sprite and frame you want via the `symbol` and `frame` properties.
+1. Download the plugin (from [AssetLib](https://godotengine.org/asset-library/asset/4058), or through cloning this repository).
+2. No enabling required, this "plugin" is really just a script that adds a new class to your project.
+3. Create a new resource instance of `JSONAtlasTexture` on any `Texture2D`-based property.
+4. Load your source image into the `texture` property of the resource.
+5. Select the sprite and frame you want via the `symbol` and `frame` properties.
 
 > [!IMPORTANT]
 > The `.json` file must have THE SAME BASE NAME as your texture image.
@@ -56,7 +56,7 @@ Currently supported sprite sheet formats:
 
 ## Issues
 
-	- JSON file is not updated automatically ([#2](https://github.com/NickSteinGames/json-atlas/issues/2#issue-3105885503))
+- JSON file is not updated automatically ([#2](https://github.com/NickSteinGames/json-atlas/issues/2#issue-3105885503))
 
 ## Major Contributors
 
