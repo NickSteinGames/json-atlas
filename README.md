@@ -38,6 +38,12 @@ Currently supported sprite sheet formats:
 4. Load your source image into the `texture` property of the resource.
 5. Select the sprite and frame you want via the `symbol` and `frame` properties.
 
+### Exporting
+
+#### Aseprite
+
+The `Item Filename` format must be `{tag}{tagframe0000}`.
+
 > [!IMPORTANT]
 > The `.json` file must have THE SAME BASE NAME as your texture image.
 >

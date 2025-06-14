@@ -94,7 +94,8 @@ func set_symbol(new_symbol: String) -> void:
 	if symbols.is_empty():
 		await data_compiled
 	if !symbols.has(new_symbol):
-		printerr("Symbol \""+new_symbol+"\" not found!")
+		if new_symbol != "":
+			printerr("Symbol \""+new_symbol+"\" not found!")
 		symbol = symbols.get(0)
 		set_frame(frame)
 		return
@@ -142,15 +143,18 @@ func set_texture(new_texture: Texture2D) -> void:
 			printerr("JSON file for `%s` doesn`t exist!" % texture.resource_path.get_file())
 	else:
 		json_file = null
+		symbols.clear()
+		symbol = ""
+		frame = 0
 	notify_property_list_changed()
 
 ## Sets the [member json_file] to the given [JSON] [param given_file].
 func _set_json_file(given_file: JSON) -> void:
 	var old_json: JSON = json_file
 	json_file = given_file
-	if !given_file.changed.is_connected(_update_json):
-		given_file.changed.connect(_update_json)
 	if given_file:
+		if !given_file.changed.is_connected(_update_json):
+			given_file.changed.connect(_update_json)
 		_load_json()
 	else:
 		old_json.changed.disconnect(_update_json)
@@ -175,7 +179,8 @@ func _load_json() -> void:
 	for frameName: String in json_file.data.frames:
 		var symbolName: String = frameName
 		symbolName = symbolName.substr(0, symbolName.length()-4)
-		symbolName = symbolName.substr(0, frameName.findn(" instance"))
+		# Flash exclusive for if you export an instanced symbol from the canvas instead of library
+		#symbolName = symbolName.substr(0, frameName.findn(" instance"))
 		if !symbols.has(symbolName):
 			symbols.append(symbolName)
 		if !frames.has(symbolName):
@@ -196,13 +201,14 @@ func _update_json() -> void:
 ## Updates the image displayed depending on the [member texture]
 ## and the [member scale].
 func _update_image() -> void:
-	var img: Image = texture.get_image().duplicate()
-	img.resize(
-		round(texture.get_width() * scale.x),
-		round(texture.get_height() * scale.y),
-		scale_behaviour
-	)
-	_image = ImageTexture.create_from_image(img)
+	if texture:
+		var img: Image = texture.get_image().duplicate()
+		img.resize(
+			round(texture.get_width() * scale.x),
+			round(texture.get_height() * scale.y),
+			scale_behaviour
+		)
+		_image = ImageTexture.create_from_image(img)
 	set_frame(frame)
 
 func _validate_property(property: Dictionary) -> void:
