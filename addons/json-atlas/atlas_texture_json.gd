@@ -1,8 +1,12 @@
 @tool
 @icon("atlas_texture_json.svg")
 extends AtlasTexture
-## Draws an [member AtlastTexture] based on a given [Texture2D] [member texture] and it's
+## Draws an [member AtlasTexture] based on a given [Texture2D] [member texture] and it's
 ## associated [JSON] [member json_file].
+## [br][br][b]Notice: when exporting via Aseprite, ensure the [b]Item Filename[/b] is formatted as:
+##[codeblock lang=text]
+##{tag}{tagframe0000}
+##[/codeblock]
 class_name AtlasTextureJSON
 
 ## Signal emitted once the [member frames] and [member symbols] have been populated.
