@@ -37,8 +37,8 @@ var scale: Vector2 = Vector2(1.0, 1.0):
 ## [br]Set by [method set_json_file].
 @export_storage var json_file: JSON: set = _set_json_file
 
-## An [Array] that stores the [String] symbol names to be used within the animation.
-@export_storage var symbols: Array[String]
+## A [PackedStringArray] that stores the [String] symbol names to be used within the animation.
+@export_storage var symbols: PackedStringArray
 
 ## Stores the [Array] of [Rect2i] frames to be used within the animation.
 @export_storage var frames: Dictionary#[String, Array[Rect2i]]
@@ -68,24 +68,12 @@ func get_frame_count(symbol_name: String = symbol) -> int:
 ## Creates a [String] hint-string of symbol names.
 ## [br]Used fo the [member symbol]'s export property, see [method _validate_property].
 func _get_symbols_hint_string() -> String:
-	var result: String = ""
-	for name: String in symbols:
-		if result != "":
-			result += ","+name
-		else:
-			result = name
-	return result
+	return ",".join(symbols)
 
 ## Creates a [String] hint-string of frame titles.
 ## [br]Used for the [member frame]'s export property, see [method _validate_property].
 func _get_frames_hint_string() -> String:
-	var result: String = ""
-	for name: String in frames.keys():
-		if result != "":
-			result += ","+name
-		else:
-			result = name
-	return result
+	return ",".join(frames.keys())
 #endregion
 
 #region SET
