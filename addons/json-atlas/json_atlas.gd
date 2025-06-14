@@ -1,42 +1,59 @@
 @tool
 @icon("json_atlas.svg")
 extends AtlasTexture
-## Draws an [member AtlastTexture] based on a given [Texture2D] [member source_image] and it's
+## Draws an [member AtlastTexture] based on a given [Texture2D] [member texture] and it's
 ## associated [JSON] [member json_file].
 class_name JSONAtlasTexture
 
 ## Signal emitted once the [member frames] and [member symbols] have been populated.
 signal data_compiled
 
-## The name of the Symbol that will be selected. Set by [method set_symbol].
+## The name of the Symbol that will be selected.
+## [br]Set by [method set_symbol].
 @export var symbol: String: set = set_symbol
 
-## The [int] frame of the [member symbol] that will be rendered. Set by [method set_frame].
+## The [int] frame of the [member symbol] that will be rendered.
+## [br]Set by [method set_frame].
 @export var frame: int = 0: set = set_frame
 
 ## The source [Texture2D] image from which the image will be taken for output.
-## Set by [method set_source_image]
-@export var source_image: Texture2D: set = set_source_image
+## [br]Set by [method set_texture]
+@export var texture: Texture2D: set = set_texture
 
-## [JSON] file with the atlas data for the [member source_image]. Set by [method set_json_file].
-@export var json_file: JSON: set = set_json_file
+## The [Vector2] amount that the [member texture] will be scaled by.
+## [br]Set by [method set_scale].
+@export_custom(PROPERTY_HINT_LINK, "")
+var scale: Vector2 = Vector2(1.0, 1.0):
+	set = set_scale
 
 ## The [enum frame_behaviour_types] type of behaviour for [member frame] when it is set.
 @export var frame_behaviour: frame_behaviour_types = frame_behaviour_types.STOP
 
+## The [enum Image.Interpolation] behaviour for the scaling of the texture.
+@export var scale_behaviour: Image.Interpolation = Image.Interpolation.INTERPOLATE_NEAREST
+
 #region STORAGE
+## [JSON] file with the atlas data for the [member texture].
+## [br]Set by [method set_json_file].
+@export_storage var json_file: JSON: set = _set_json_file
+
 ## An [Array] that stores the [String] symbol names to be used within the animation.
 @export_storage var symbols: Array[String]
 
 ## Stores the [Array] of [Rect2i] frames to be used within the animation.
 @export_storage var frames: Dictionary#[String, Array[Rect2i]]
+
+## The [ImageTexture] used as the [member AtlasTexture.atlas].
+## Acts as the [member texture] with effects via [member scale] applied.
+## [br]Set by [method _set_image]
+@export_storage var _image: ImageTexture: set = _set_image
 #endregion
 
 ## Enum to define the behaviour of out-of-bounds sets to [member frame].
 enum frame_behaviour_types {
-	## Clamp higher/lower values of the max/min.
+	## Clamp higher/lower values of the max/min when setting [member frame].
 	STOP,
-	## Forward/Backward loop the frames. Setting higher/lower than the max/min
+	## Loop the frames forward/backward. Setting [member frame] higher/lower than the max/min
 	## will loop to the start/end.
 	LOOP,
 }
@@ -102,23 +119,33 @@ func set_frame(new_frame: int) -> void:
 				new_frame = 0
 	frame = new_frame
 	region = frames[symbol][frame]
+	region.size *= scale
+	region.position *= scale
 
-## Sets the [member source_image] to the given [Texture2D] [param given_image].
-func set_source_image(given_image: Texture2D) -> void:
-	source_image = given_image
-	atlas = given_image
-	if given_image:
-		var path: String = source_image.resource_path.replace(source_image.resource_path.get_extension(), "json")
+## Sets [member _image] to the given [ImageTexture] [param new_image]
+func _set_image(new_image: ImageTexture) -> void:
+	_image = new_image
+	atlas = _image
+
+## Sets the [member texture] to the given [Texture2D] [param new_texture].
+func set_texture(new_texture: Texture2D) -> void:
+	texture = new_texture
+	if new_texture:
+		var path: String = texture.resource_path.replace(
+			texture.resource_path.get_extension(),
+			"json"
+		)
 		if FileAccess.file_exists(path):
 			json_file = load(path)
+			_update_image()
 		else:
-			printerr("JSON file for `%s` doesn`t exist!" % source_image.resource_path.get_file())
+			printerr("JSON file for `%s` doesn`t exist!" % texture.resource_path.get_file())
 	else:
 		json_file = null
 	notify_property_list_changed()
 
 ## Sets the [member json_file] to the given [JSON] [param given_file].
-func set_json_file(given_file: JSON) -> void:
+func _set_json_file(given_file: JSON) -> void:
 	var old_json: JSON = json_file
 	json_file = given_file
 	if !given_file.changed.is_connected(_update_json):
@@ -127,6 +154,11 @@ func set_json_file(given_file: JSON) -> void:
 		_load_json()
 	else:
 		old_json.changed.disconnect(_update_json)
+
+## Sets the [member scale] to the given [Vector2] [param new_scale].
+func set_scale(new_scale: Vector2) -> void:
+	scale = new_scale
+	_update_image()
 #endregion
 
 ## Loads the [member json_file] and gets frame data.
@@ -160,6 +192,18 @@ func _load_json() -> void:
 ## Reloads the [member json_file] if changed.
 func _update_json() -> void:
 	json_file = load(json_file.resource_path)
+
+## Updates the image displayed depending on the [member texture]
+## and the [member scale].
+func _update_image() -> void:
+	var img: Image = texture.get_image().duplicate()
+	img.resize(
+		round(texture.get_width() * scale.x),
+		round(texture.get_height() * scale.y),
+		scale_behaviour
+	)
+	_image = ImageTexture.create_from_image(img)
+	set_frame(frame)
 
 func _validate_property(property: Dictionary) -> void:
 	match property.name:
