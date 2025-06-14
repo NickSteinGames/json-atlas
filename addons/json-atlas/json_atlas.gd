@@ -10,7 +10,7 @@ signal data_compiled
 
 ## The name of the Symbol that will be selected.
 ## [br]Set by [method set_symbol].
-@export var symbol: String: set = set_symbol
+@export var symbol: String = "": set = set_symbol
 
 ## The [int] frame of the [member symbol] that will be rendered.
 ## [br]Set by [method set_frame].
@@ -92,6 +92,10 @@ func set_symbol(new_symbol: String) -> void:
 
 ## Set current [member frame] to the given [String] [param new_frame].
 func set_frame(new_frame: int) -> void:
+	if !frames.has(symbol):
+		if symbols.is_empty():
+			return
+		symbol = symbol
 	if frames.is_empty():
 		await data_compiled
 	if new_frame > get_frame_count()-1:
@@ -164,16 +168,24 @@ func _load_json() -> void:
 	symbols.clear()
 	frames.clear()
 	var data: Dictionary = json_file.data
-	for frameName: String in json_file.data.frames:
-		var symbolName: String = frameName
+	for element: Variant in data.frames:
+		var chunk: Dictionary
+		if data.frames is Dictionary:
+			chunk = data.frames[element]
+		if data.frames is Array:
+			chunk = element
+		
+		var symbolName: String
+		if data.frames is Dictionary:
+			symbolName = element
+		if data.frames is Array:
+			symbolName = chunk["filename"]
 		symbolName = symbolName.substr(0, symbolName.length()-4)
-		# Flash exclusive for if you export an instanced symbol from the canvas instead of library
-		#symbolName = symbolName.substr(0, frameName.findn(" instance"))
+		
 		if !symbols.has(symbolName):
 			symbols.append(symbolName)
 		if !frames.has(symbolName):
 			frames[symbolName] = []
-		var chunk: Dictionary = data.frames[frameName]
 		frames[symbolName].append(Rect2i(
 			chunk.frame.x,
 			chunk.frame.y,
