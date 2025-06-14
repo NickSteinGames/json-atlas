@@ -40,12 +40,15 @@ Currently supported sprite sheet formats:
 
 ### Exporting
 
-#### Aseprite
-
-The `Item Filename` format must be `{tag}{tagframe0000}`.
+> [!IMPORTANT]
+> When Exporting from __Aseprite__,
+>The `Item Filename` format must be:
+>```
+> {tag}{tagframe0000}
+>```
 
 > [!IMPORTANT]
-> The `.json` file must have THE SAME BASE NAME as your texture image.
+> The `.json` file must have __the same base name__ as your texture image.
 >
 > ✅ YES:
 > ```go
