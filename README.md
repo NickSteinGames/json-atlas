@@ -1,4 +1,4 @@
-# JSONAtlasTexture
+# AtlasTextureJSON
 
 <p align="center">
 	<img src="icon.png" alt="AtlasTexture JSON Icon">
@@ -16,8 +16,9 @@ Currently supported sprite sheet formats:
 ## Features
 
 - [x] Automatic loading of a `.json` file when the `texture` is loaded.
+- [x] Support for both Hash and Array-based `.json` formats.
 - [x] Aseprite's Tags and Adobe Animate / Flash's Symbols seperated in sections through the `symbol` property.
-- [x] Texture scaling through a `scale` property within the `JSONAtlasTexture`.
+- [x] Texture scaling through a `scale` property within the `AtlasTextureJSON`.
   - [x] Customisable scale interpolation via `scale_behaviour` property.
 - [x] Customisable `frame` looping behaviour via `frame_behaviour` property.
 
@@ -27,14 +28,15 @@ Currently supported sprite sheet formats:
 
 ### Tentative
 
+- [ ] Custom offsets on symbols. 
 - [ ] Automatic Atlas creation with presets via the `Import` tab.
-- [ ] A completely independent class `JSONTexture` (without inheriting `AtlasTexture`).
+- [ ] A completely independent class `TextureJSON` (without inheriting `AtlasTexture`).
 
 ## Instructions
 
 1. Download the plugin (from [AssetLib](https://godotengine.org/asset-library/asset/4058), or through cloning this repository).
 2. No enabling required, this "plugin" is really just a script that adds a new class to your project.
-3. Create a new resource instance of `JSONAtlasTexture` on any `Texture2D`-based property.
+3. Create a new resource instance of `AtlasTextureJSON` on any `Texture2D`-based property.
 4. Load your source image into the `texture` property of the resource.
 5. Select the sprite and frame you want via the `symbol` and `frame` properties.
 

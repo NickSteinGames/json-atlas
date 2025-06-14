@@ -1,9 +1,9 @@
 @tool
-@icon("json_atlas.svg")
+@icon("atlas_texture_json.svg")
 extends AtlasTexture
 ## Draws an [member AtlastTexture] based on a given [Texture2D] [member texture] and it's
 ## associated [JSON] [member json_file].
-class_name JSONAtlasTexture
+class_name AtlasTextureJSON
 
 ## Signal emitted once the [member frames] and [member symbols] have been populated.
 signal data_compiled
@@ -163,7 +163,7 @@ func _load_json() -> void:
 		printerr("Provided JSON file has no frame data!")
 		return
 	if !json_file.data is Dictionary:
-		printerr("JSONAtlasTexture only supports Dictionaries!")
+		printerr("AtlasTextureJSON only supports Dictionaries!")
 		return
 	symbols.clear()
 	frames.clear()

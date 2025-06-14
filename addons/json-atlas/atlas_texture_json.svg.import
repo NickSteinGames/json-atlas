@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://7msrhg4i0kol"
-path="res://.godot/imported/json_atlas.svg-f0025b81453702dcc84ba75115a0c18b.ctex"
+path="res://.godot/imported/atlas_texture_json.svg-88bfd2f0a593e0a5f370518c104a62cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://json-atlas/addons/json-atlas/json_atlas.svg"
-dest_files=["res://.godot/imported/json_atlas.svg-f0025b81453702dcc84ba75115a0c18b.ctex"]
+source_file="res://json-atlas/addons/json-atlas/atlas_texture_json.svg"
+dest_files=["res://.godot/imported/atlas_texture_json.svg-88bfd2f0a593e0a5f370518c104a62cf.ctex"]
 
 [params]
 
