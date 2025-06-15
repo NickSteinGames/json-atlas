@@ -12,11 +12,11 @@ config_version=5
 
 config/name="JSON Atlas"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://rxqydxhsles5"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/json_atlas/plugin.cfg")
+enabled=PackedStringArray()
 
 [rendering]
 
