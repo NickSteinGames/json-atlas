@@ -210,11 +210,6 @@ mouse_filter = 1
 text = "{tag}{tagframe0000}"
 placeholder_text = "Pattern..."
 
-[node name="SelectDirButton" type="Button" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/DirParam2/HBoxContainer"]
-layout_mode = 2
-mouse_filter = 1
-icon = ExtResource("3_tsjpk")
-
 [node name="ScaleBehParam" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
@@ -496,11 +491,6 @@ mouse_filter = 1
 text = "{tag}{tagframe0000}"
 placeholder_text = "Pattern..."
 
-[node name="SelectDirButton" type="Button" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/DirParam2/HBoxContainer"]
-layout_mode = 2
-mouse_filter = 1
-icon = ExtResource("3_tsjpk")
-
 [node name="ScaleParam" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
@@ -643,8 +633,6 @@ size_flags_vertical = 3
 [connection signal="confirmed" from="." to="." method="_on_confirmed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FileParam/HBoxContainer/SelectFileButton" to="." method="_on_select_file_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/DirParam/HBoxContainer/SelectDirButton" to="." method="_on_select_dir_button_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/DirParam2/HBoxContainer/SelectDirButton" to="." method="_on_select_dir_button_pressed"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/SelectDirButton" to="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer" method="set_visible"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer/Button" to="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer/VBoxContainer" method="set_visible"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer/VBoxContainer/HBoxContainer2/Button" to="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer" method="set_visible"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer/VBoxContainer/HBoxContainer2/PanelContainer/VBoxContainer/DirParam2/HBoxContainer/SelectDirButton" to="." method="_on_select_dir_button_pressed"]
