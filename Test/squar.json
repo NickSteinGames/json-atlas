@@ -1,0 +1,165 @@
+{
+	"frames": {
+		"Squar00000": {
+			"frame": {
+				"x": 0.0,
+				"y": 0.0,
+				"w": 28.0,
+				"h": 28.0
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 2.0,
+				"y": 2.0,
+				"w": 28.0,
+				"h": 28.0
+			},
+			"sourceSize": {
+				"w": 32.0,
+				"h": 32.0
+			},
+			"duration": 100.0
+		},
+		"Squar00001": {
+			"frame": {
+				"x": 28.0,
+				"y": 0.0,
+				"w": 24.0,
+				"h": 24.0
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 4.0,
+				"y": 4.0,
+				"w": 24.0,
+				"h": 24.0
+			},
+			"sourceSize": {
+				"w": 32.0,
+				"h": 32.0
+			},
+			"duration": 100.0
+		},
+		"Squar00002": {
+			"frame": {
+				"x": 52.0,
+				"y": 0.0,
+				"w": 20.0,
+				"h": 20.0
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 6.0,
+				"y": 6.0,
+				"w": 20.0,
+				"h": 20.0
+			},
+			"sourceSize": {
+				"w": 32.0,
+				"h": 32.0
+			},
+			"duration": 100.0
+		},
+		"SquarIdk00000": {
+			"frame": {
+				"x": 72.0,
+				"y": 0.0,
+				"w": 28.0,
+				"h": 28.0
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 2.0,
+				"y": 2.0,
+				"w": 28.0,
+				"h": 28.0
+			},
+			"sourceSize": {
+				"w": 32.0,
+				"h": 32.0
+			},
+			"duration": 100.0
+		},
+		"SquarIdk00001": {
+			"frame": {
+				"x": 100.0,
+				"y": 0.0,
+				"w": 24.0,
+				"h": 24.0
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 4.0,
+				"y": 4.0,
+				"w": 24.0,
+				"h": 24.0
+			},
+			"sourceSize": {
+				"w": 32.0,
+				"h": 32.0
+			},
+			"duration": 100.0
+		},
+		"SquarIdk00002": {
+			"frame": {
+				"x": 124.0,
+				"y": 0.0,
+				"w": 20.0,
+				"h": 20.0
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 6.0,
+				"y": 6.0,
+				"w": 20.0,
+				"h": 20.0
+			},
+			"sourceSize": {
+				"w": 32.0,
+				"h": 32.0
+			},
+			"duration": 100.0
+		}
+	},
+	"meta": {
+		"app": "https://www.aseprite.org/",
+		"version": "1.3.14.2-x64",
+		"image": "squar.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 144.0,
+			"h": 28.0
+		},
+		"scale": "1",
+		"frameTags": [
+			{
+				"name": "Squar",
+				"from": 0.0,
+				"to": 2.0,
+				"direction": "forward",
+				"color": "#000000ff"
+			},
+			{
+				"name": "SquarIdk",
+				"from": 3.0,
+				"to": 5.0,
+				"direction": "forward",
+				"color": "#000000ff"
+			}
+		],
+		"layers": [
+			{
+				"name": "Layer 1",
+				"opacity": 255.0,
+				"blendMode": "normal"
+			}
+		],
+		"slices": []
+	}
+}

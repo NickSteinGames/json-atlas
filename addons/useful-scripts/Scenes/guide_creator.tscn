@@ -1,0 +1,529 @@
+[gd_scene load_steps=15 format=3 uid="uid://n8rbttkiwmvo"]
+
+[ext_resource type="Script" uid="uid://bul2lpdgwxv0g" path="res://addons/useful-scripts/Scripts/guide_creator.gd" id="1_ul7y3"]
+[ext_resource type="PackedScene" uid="uid://cqoqo6mr1lbq1" path="res://addons/useful-scripts/Scenes/option_box.tscn" id="2_k71bg"]
+[ext_resource type="PackedScene" uid="uid://b6li00wii0x1p" path="res://addons/useful-scripts/Scenes/guide_help_box.tscn" id="3_o6cu8"]
+[ext_resource type="Script" uid="uid://dfupv4swvcjcl" path="res://addons/useful-scripts/Scripts/doc_comment_syntax.gd" id="4_pcvn0"]
+
+[sub_resource type="GDScript" id="GDScript_o6cu8"]
+resource_name = "Options"
+script/source = "@tool
+extends BoxContainer
+
+func _ready() -> void:
+	for child in get_children():
+		if !(child is Button):
+			(child.Edited as Signal).connect(owner.edit)
+
+func apply():
+	for child in get_children():
+		if !(child is Button):
+			child.Edited.emit(child.section, child.key, child.get_value())
+"
+
+[sub_resource type="InputEventKey" id="InputEventKey_pcvn0"]
+device = -1
+ctrl_pressed = true
+keycode = 82
+
+[sub_resource type="Shortcut" id="Shortcut_7w27l"]
+events = [SubResource("InputEventKey_pcvn0")]
+
+[sub_resource type="GDScript" id="GDScript_7w27l"]
+resource_name = "Reloading Class Listr"
+script/source = "@tool
+extends Button
+
+func _pressed() -> void:
+	owner.class_list = ClassDB.get_class_list()
+	print(JSON.stringify(owner.class_list, \"\\t\"))
+"
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_o6cu8"]
+ctrl_pressed = true
+button_mask = 8
+position = Vector2(118, 22)
+global_position = Vector2(125, 61)
+button_index = 4
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_pcvn0"]
+events = [SubResource("InputEventMouseButton_o6cu8")]
+
+[sub_resource type="InputEventMouseButton" id="InputEventMouseButton_7w27l"]
+ctrl_pressed = true
+button_mask = 16
+position = Vector2(130, 14)
+global_position = Vector2(137, 53)
+button_index = 5
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_ybwxl"]
+events = [SubResource("InputEventMouseButton_7w27l")]
+
+[sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_pcvn0"]
+script = ExtResource("4_pcvn0")
+metadata/_custom_type_script = "uid://dfupv4swvcjcl"
+
+[sub_resource type="GDScript" id="GDScript_pcvn0"]
+script/source = "@tool
+extends CodeEdit
+
+@export var previewer: CodeEdit
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventKey && event.is_pressed():
+		previewer.scroll_horizontal = scroll_horizontal
+		previewer.scroll_vertical = scroll_vertical
+"
+
+[node name="Window" type="Window" node_paths=PackedStringArray("code_edit", "code_preview", "font_size_box")]
+process_mode = 4
+disable_3d = true
+title = "Create Guide Commentary"
+position = Vector2i(201, 74)
+size = Vector2i(750, 500)
+transient = true
+script = ExtResource("1_ul7y3")
+code_edit = NodePath("MarginContainer/BoxContainer2/BoxContainer2/CodeEdit")
+code_preview = NodePath("MarginContainer/BoxContainer2/BoxContainer2/BoxContainer/CodeEdit2")
+font_size_box = NodePath("MarginContainer/BoxContainer2/HBoxContainer/SpinBox")
+
+[node name="MarginContainer" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer2" type="BoxContainer" parent="MarginContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+vertical = true
+
+[node name="BoxContainer" type="BoxContainer" parent="MarginContainer/BoxContainer2"]
+layout_mode = 2
+
+[node name="CopyButton" type="Button" parent="MarginContainer/BoxContainer2/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Copy to Clipboard"
+
+[node name="Button" type="Button" parent="MarginContainer/BoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="Window" type="Window" parent="MarginContainer/BoxContainer2/BoxContainer/Button"]
+title = "Guide Creator Settings"
+initial_position = 2
+size = Vector2i(350, 200)
+visible = false
+
+[node name="Panel" type="Panel" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = -8.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+vertical = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BoxContainer" type="BoxContainer" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+vertical = true
+script = SubResource("GDScript_o6cu8")
+
+[node name="HBoxContainer" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer/ScrollContainer/BoxContainer" instance=ExtResource("2_k71bg")]
+visible = false
+layout_mode = 2
+text = "TabSpaces"
+key = &"TabSpaces"
+default_num_value = 4.0
+
+[node name="HBoxContainer2" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer/ScrollContainer/BoxContainer" instance=ExtResource("2_k71bg")]
+layout_mode = 2
+text = "Show Tabs"
+key = &"ShowTabs"
+value_type = 3
+default_num_value = 4.0
+
+[node name="HBoxContainer3" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer/ScrollContainer/BoxContainer" instance=ExtResource("2_k71bg")]
+layout_mode = 2
+text = "Show Spaces"
+key = &"ShowSpaces"
+value_type = 3
+default_num_value = 4.0
+
+[node name="Button" type="Button" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer/ScrollContainer/BoxContainer"]
+layout_mode = 2
+shortcut = SubResource("Shortcut_7w27l")
+text = "Update class list"
+script = SubResource("GDScript_7w27l")
+
+[node name="Button" type="Button" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Apply"
+
+[node name="Button2" type="Button" parent="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Cancel"
+
+[node name="Button2" type="Button" parent="MarginContainer/BoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "Help"
+
+[node name="Window" type="Window" parent="MarginContainer/BoxContainer2/BoxContainer/Button2"]
+auto_translate_mode = 1
+title = "Help window"
+initial_position = 2
+size = Vector2i(700, 350)
+visible = false
+
+[node name="Panel" type="Panel" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 11.0
+offset_right = -11.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+vertical = true
+
+[node name="HBoxContainer11" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[some_tag]"
+discription = "Description. \"C\" button - Copy tag button."
+
+[node name="Label4" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer/HBoxContainer11" index="0"]
+text = "[some_tag]"
+
+[node name="Label3" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer/HBoxContainer11" index="2"]
+text = "Description. \"C\" button - Copy tag button."
+
+[node name="Button" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer/HBoxContainer11" index="3"]
+disabled = true
+
+[node name="HBoxContainer35" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[ignor]"
+discription = "Its only for Guide Creator tag. it removes auto adding `[br]` to next line. ("
+
+[node name="Label" type="Label" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Tags"
+
+[node name="HBoxContainer" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "@tutorial"
+discription = "@tutorial: https://example.com
+@tutorial(The Title Here): https://example.com"
+
+[node name="HBoxContainer2" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "@deprecated"
+discription = "@deprecated
+@deprecated: Use [AnotherClass] instead."
+
+[node name="HBoxContainer3" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "@experimental"
+discription = "@experimental
+@experimental: This class is unstable."
+
+[node name="Label2" type="Label" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "BBCode"
+
+[node name="HBoxContainer4" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[ClassName]"
+discription = "Link to class. (Move the [Sprite2D].)"
+
+[node name="HBoxContainer5" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[annotation Class.name]"
+discription = "Link to annotation. (See [annotation @GDScript.@rpc].)"
+
+[node name="HBoxContainer6" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[constant Class.name]"
+discription = "Link to constant. (See [constant Color.RED].)"
+
+[node name="HBoxContainer7" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[enum Class.name]"
+discription = "Link to enum. (See [enum Mesh.ArrayType].)"
+
+[node name="HBoxContainer8" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[member Class.name]"
+discription = "Link to member (property). (Get [member Node2D.scale].)"
+
+[node name="HBoxContainer9" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[method Class.name]"
+discription = "Link to method (Callable). (Call [method Node3D.hide].)"
+
+[node name="HBoxContainer10" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[constructor Class.name]"
+discription = "Link to built-in constructor. (Use [constructor Color.Color].)"
+
+[node name="HBoxContainer12" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[operator Class.name]"
+discription = "Link to built-in operator. (Use [operator Color.operator *].)"
+
+[node name="HBoxContainer13" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[signal Class.name]"
+discription = "Link to signal. (Emit [signal Node.renamed].)"
+
+[node name="HBoxContainer14" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[theme_item Class.name]"
+discription = "See [theme_item Label.font]."
+
+[node name="HBoxContainer15" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[param name]"
+discription = "Parameter name (as code). (Takes [param size] for the size.)"
+
+[node name="HBoxContainer16" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[br]"
+discription = "Line break. (In this editor it placed automatically! :D)"
+
+[node name="HBoxContainer17" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[lb] [rb]"
+discription = "[ and ] respectively. Ignoring BBCode tags. ([lb]b[rb]text[lb]/b[rb] -> [b]text[/b])"
+
+[node name="HBoxContainer18" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[b] [/b]"
+discription = "Bold text."
+
+[node name="HBoxContainer19" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[i] [/i]"
+discription = "Italic text."
+
+[node name="HBoxContainer20" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[s] [/s]"
+discription = "Strikethrough text."
+
+[node name="HBoxContainer21" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[color] [/color]"
+discription = "Color. ([color=red]Error![/color])"
+
+[node name="HBoxContainer22" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[font] [/font]"
+discription = "Custom node for text. ([font=res://mono.ttf]LICENSE[/font])"
+
+[node name="Control" type="Control" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HBoxContainer23" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[img]{path}[/img]"
+discription = "Image."
+
+[node name="HBoxContainer24" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[img={width}]{path}[/img]"
+discription = "Image with sets width."
+
+[node name="HBoxContainer25" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[img={width}x{height}]{path}[/img]"
+discription = "Image with full custom size."
+
+[node name="HBoxContainer26" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[img={valign}]{path}[/img]"
+discription = "image with custom alignment."
+
+[node name="LinkButton" type="LinkButton" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 7
+theme_override_font_sizes/font_size = 16
+text = "Full guide for `[img]` tag."
+underline = 1
+uri = "https://docs.godotengine.org/en/4.4/tutorials/ui/bbcode_in_richtextlabel.html#image-options"
+
+[node name="HBoxContainer27" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[url] [/url]"
+discription = "Hyperlink. ([url]https://example.com[/url]
+	                     [url=https://example.com]Website[/url])"
+
+[node name="HBoxContainer28" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[center] [/center]"
+discription = "Horizontal centering."
+
+[node name="HBoxContainer29" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[kbd] [/kbd]"
+discription = "Keyboard/mouse shortcut. (Press [kbd]Ctrl + C[/kbd].)"
+
+[node name="HBoxContainer30" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[code] [/code]"
+discription = "Inline code fragment. (Returns [code]true[/code].)"
+
+[node name="Label3" type="Label" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Code Blocks"
+
+[node name="HBoxContainer31" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[codeblock]\\n[/codeblock]"
+discription = "Multiline code block. (By default, [codeblock] highlights GDScript syntax)"
+
+[node name="HBoxContainer32" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[codeblock lang=text]\\n[/codeblock]"
+discription = "Multiline code block without syntax highlighting. (just a text)"
+
+[node name="HBoxContainer33" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[codeblock lang=gdscript]\\n[/codeblock]"
+discription = "Multiline code block with highlighting GDScript syntax. (how by default)"
+
+[node name="HBoxContainer34" parent="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer" instance=ExtResource("3_o6cu8")]
+layout_mode = 2
+tag = "[codeblock lang=csharp]\\n[/codeblock]"
+discription = "Multiline code block with highlighting C# syntax (only in .NET version)."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/BoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/BoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Font size: "
+
+[node name="+Button" type="Button" parent="MarginContainer/BoxContainer2/HBoxContainer"]
+layout_mode = 2
+shortcut = SubResource("Shortcut_pcvn0")
+text = "-"
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/BoxContainer2/HBoxContainer"]
+layout_mode = 2
+min_value = 8.0
+max_value = 32.0
+value = 12.0
+suffix = "px"
+
+[node name="-Button" type="Button" parent="MarginContainer/BoxContainer2/HBoxContainer"]
+layout_mode = 2
+shortcut = SubResource("Shortcut_ybwxl")
+text = "+"
+
+[node name="BoxContainer2" type="VSplitContainer" parent="MarginContainer/BoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="CodeEdit" type="CodeEdit" parent="MarginContainer/BoxContainer2/BoxContainer2" node_paths=PackedStringArray("previewer")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+use_custom_word_separators = true
+custom_word_separators = "_=*+\"'"
+syntax_highlighter = SubResource("SyntaxHighlighter_pcvn0")
+highlight_all_occurrences = true
+highlight_current_line = true
+draw_tabs = true
+draw_spaces = true
+gutters_draw_line_numbers = true
+gutters_draw_fold_gutter = true
+code_completion_enabled = true
+code_completion_prefixes = Array[String](["["])
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+script = SubResource("GDScript_pcvn0")
+previewer = NodePath("../BoxContainer/CodeEdit2")
+
+[node name="BoxContainer" type="BoxContainer" parent="MarginContainer/BoxContainer2/BoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+vertical = true
+
+[node name="Label" type="Label" parent="MarginContainer/BoxContainer2/BoxContainer2/BoxContainer"]
+layout_mode = 2
+text = "Preview:"
+
+[node name="CodeEdit2" type="CodeEdit" parent="MarginContainer/BoxContainer2/BoxContainer2/BoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+editable = false
+syntax_highlighter = SubResource("SyntaxHighlighter_pcvn0")
+draw_tabs = true
+draw_spaces = true
+line_folding = true
+gutters_draw_fold_gutter = true
+
+[connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="pressed" from="MarginContainer/BoxContainer2/BoxContainer/CopyButton" to="." method="_on_copy_button_pressed"]
+[connection signal="pressed" from="MarginContainer/BoxContainer2/BoxContainer/Button" to="MarginContainer/BoxContainer2/BoxContainer/Button/Window" method="show"]
+[connection signal="close_requested" from="MarginContainer/BoxContainer2/BoxContainer/Button/Window" to="MarginContainer/BoxContainer2/BoxContainer/Button/Window" method="hide"]
+[connection signal="pressed" from="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer/Button" to="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer/ScrollContainer/BoxContainer" method="apply"]
+[connection signal="pressed" from="MarginContainer/BoxContainer2/BoxContainer/Button/Window/Panel/BoxContainer/Button2" to="MarginContainer/BoxContainer2/BoxContainer/Button/Window" method="hide"]
+[connection signal="pressed" from="MarginContainer/BoxContainer2/BoxContainer/Button2" to="MarginContainer/BoxContainer2/BoxContainer/Button2/Window" method="show"]
+[connection signal="close_requested" from="MarginContainer/BoxContainer2/BoxContainer/Button2/Window" to="MarginContainer/BoxContainer2/BoxContainer/Button2/Window" method="hide"]
+[connection signal="pressed" from="MarginContainer/BoxContainer2/HBoxContainer/+Button" to="." method="_on_minus_pressed"]
+[connection signal="value_changed" from="MarginContainer/BoxContainer2/HBoxContainer/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="pressed" from="MarginContainer/BoxContainer2/HBoxContainer/-Button" to="." method="_on_plus_button_pressed"]
+[connection signal="text_changed" from="MarginContainer/BoxContainer2/BoxContainer2/CodeEdit" to="." method="_on_code_edit_text_changed"]
+
+[editable path="MarginContainer/BoxContainer2/BoxContainer/Button2/Window/Panel/ScrollContainer/BoxContainer/HBoxContainer11"]

@@ -1,0 +1,84 @@
+{ "frames": {
+   "symbol10000": {
+    "frame": { "x": 4, "y": 4, "w": 66, "h": 61 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 66, "h": 61 },
+    "sourceSize": { "w": 567, "h": 74 },
+    "duration": 100
+   },
+   "symbol10001": {
+    "frame": { "x": 74, "y": 4, "w": 66, "h": 61 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 66, "h": 61 },
+    "sourceSize": { "w": 567, "h": 74 },
+    "duration": 100
+   },
+   "symbol10002": {
+    "frame": { "x": 144, "y": 4, "w": 66, "h": 61 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 66, "h": 61 },
+    "sourceSize": { "w": 567, "h": 74 },
+    "duration": 100
+   },
+   "symbol10003": {
+    "frame": { "x": 4, "y": 69, "w": 66, "h": 61 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 66, "h": 61 },
+    "sourceSize": { "w": 567, "h": 74 },
+    "duration": 100
+   },
+   "symbol20000": {
+    "frame": { "x": 74, "y": 69, "w": 66, "h": 61 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 66, "h": 61 },
+    "sourceSize": { "w": 567, "h": 74 },
+    "duration": 100
+   },
+   "symbol20001": {
+    "frame": { "x": 144, "y": 69, "w": 66, "h": 61 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 66, "h": 61 },
+    "sourceSize": { "w": 567, "h": 74 },
+    "duration": 100
+   },
+   "symbol20002": {
+    "frame": { "x": 4, "y": 134, "w": 66, "h": 61 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 66, "h": 61 },
+    "sourceSize": { "w": 567, "h": 74 },
+    "duration": 100
+   },
+   "symbol20003": {
+    "frame": { "x": 74, "y": 134, "w": 66, "h": 61 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 66, "h": 61 },
+    "sourceSize": { "w": 567, "h": 74 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.3.14.2-x64",
+  "image": "aseprite.png",
+  "format": "RGBA8888",
+  "size": { "w": 214, "h": 199 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "symbol1", "from": 0, "to": 3, "direction": "forward", "color": "#000000ff" },
+   { "name": "symbol2", "from": 4, "to": 7, "direction": "forward", "color": "#000000ff" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

@@ -1,0 +1,127 @@
+[gd_scene load_steps=7 format=3 uid="uid://c2dg8gqcbopb0"]
+
+[ext_resource type="FontFile" uid="uid://bu3dq7ajycrmy" path="res://addons/useful-scripts/segmdl2.ttf" id="1_afgwb"]
+[ext_resource type="Script" uid="uid://lyf71pmlxmsj" path="res://addons/useful-scripts/Scripts/gui_cretor_window.gd" id="1_o3mbm"]
+[ext_resource type="PackedScene" uid="uid://nvotleq8httx" path="res://addons/useful-scripts/Scenes/gui_creator_element.tscn" id="2_1bkgr"]
+[ext_resource type="Script" uid="uid://dmxbrhoyw4dtg" path="res://addons/useful-scripts/Scripts/gui_highlither.gd" id="3_mpec3"]
+
+[sub_resource type="SyntaxHighlighter" id="SyntaxHighlighter_mpec3"]
+script = ExtResource("3_mpec3")
+metadata/_custom_type_script = "uid://dmxbrhoyw4dtg"
+
+[sub_resource type="GDScript" id="GDScript_1bkgr"]
+resource_name = "Data Edit"
+script/source = "@tool
+extends CodeEdit
+
+func _ready() -> void:
+	pass
+"
+
+[node name="GUICretor" type="Window"]
+title = "GUICretor"
+position = Vector2i(201, 124)
+size = Vector2i(750, 400)
+extend_to_title = true
+min_size = Vector2i(300, 150)
+keep_title_visible = true
+script = ExtResource("1_o3mbm")
+
+[node name="PanelContainer" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+vertical = true
+
+[node name="PanelContainer" type="Panel" parent="PanelContainer/BoxContainer"]
+self_modulate = Color(0.5, 0.5, 0.5, 1)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/BoxContainer/PanelContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 6.0
+offset_right = -3.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/BoxContainer/PanelContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" parent="PanelContainer/BoxContainer/PanelContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_1bkgr")]
+layout_mode = 2
+
+[node name="DataEdit" type="CodeEdit" parent="PanelContainer/BoxContainer/PanelContainer"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+placeholder_text = "Enter DATA here..."
+syntax_highlighter = SubResource("SyntaxHighlighter_mpec3")
+highlight_all_occurrences = true
+line_folding = true
+gutters_draw_fold_gutter = true
+code_completion_enabled = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+script = SubResource("GDScript_1bkgr")
+
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CopyButton" type="Button" parent="PanelContainer/BoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Copy"
+
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/BoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SaveButton" type="Button" parent="PanelContainer/BoxContainer/BoxContainer/BoxContainer"]
+layout_mode = 2
+text = "Save"
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/BoxContainer/BoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Save path..."
+
+[node name="FileButton" type="Button" parent="PanelContainer/BoxContainer/BoxContainer/BoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_afgwb")
+text = ""
+
+[connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="pressed" from="PanelContainer/BoxContainer/BoxContainer/CopyButton" to="." method="_on_copy_button_pressed"]
+[connection signal="pressed" from="PanelContainer/BoxContainer/BoxContainer/BoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="PanelContainer/BoxContainer/BoxContainer/BoxContainer/FileButton" to="." method="_on_file_button_pressed"]

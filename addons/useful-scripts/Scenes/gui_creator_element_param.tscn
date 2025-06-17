@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://bodgju5w4b3nk"]
+
+[ext_resource type="Script" uid="uid://cld1q657oidij" path="res://addons/useful-scripts/Scripts/gui_creator_element_param.gd" id="1_8hque"]
+
+[node name="HSplitContainer" type="HSplitContainer"]
+offset_right = 232.0
+offset_bottom = 31.0
+script = ExtResource("1_8hque")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+button_mask = 0
+text = "param"
+alignment = 0
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+current_tab = 0
+tabs_visible = false
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+metadata/_tab_index = 0
+
+[node name="CheckBox" type="CheckBox" parent="TabContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+text = "On"
+metadata/_tab_index = 1
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+metadata/_tab_index = 2

@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6li00wii0x1p"]
+
+[ext_resource type="Script" uid="uid://c5oa546u3qd4r" path="res://addons/useful-scripts/Scripts/guide_help_box.gd" id="1_giwgv"]
+
+[sub_resource type="Theme" id="Theme_giwgv"]
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 7
+
+[node name="HBoxContainer" type="HBoxContainer" node_paths=PackedStringArray("tag_label", "desc_label")]
+theme = SubResource("Theme_giwgv")
+theme_override_constants/separation = 10
+script = ExtResource("1_giwgv")
+tag = "@tag"
+discription = "Description"
+tag_label = NodePath("Label4")
+desc_label = NodePath("Label3")
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "@tag"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = ":"
+
+[node name="Label3" type="Label" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Description"
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+tooltip_text = "Copy"
+text = "C"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
