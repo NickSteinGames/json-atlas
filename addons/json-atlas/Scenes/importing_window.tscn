@@ -1,12 +1,54 @@
-[gd_scene load_steps=7 format=3 uid="uid://ces0q1122y7f8"]
+[gd_scene load_steps=13 format=4 uid="uid://ces0q1122y7f8"]
 
 [ext_resource type="Script" uid="uid://d31lln3pesm4k" path="res://addons/json-atlas/Scripts/importing_window.gd" id="1_25ge7"]
 [ext_resource type="Texture2D" uid="uid://dn3smepe5twth" path="res://addons/json-atlas/Images/file_icon.png" id="1_bjun1"]
 [ext_resource type="Texture2D" uid="uid://bvv5v2hwj331n" path="res://addons/json-atlas/Images/dir_icon.png" id="3_tsjpk"]
 [ext_resource type="Texture2D" uid="uid://d0mtnvgdjgh8s" path="res://addons/json-atlas/Images/link_icon.png" id="4_aawj2"]
+[ext_resource type="PackedScene" uid="uid://xwtvp7olemvm" path="res://addons/json-atlas/Scenes/GUI/import_symbol.tscn" id="5_h4f7d"]
+[ext_resource type="Texture2D" uid="uid://b2d7v6d03usn" path="res://addons/json-atlas/Images/frame_behaviour.png" id="5_pylin"]
+[ext_resource type="JSON" path="res://addons/json-atlas/Images/frame_behaviour.json" id="6_u4o82"]
+[ext_resource type="Script" uid="uid://c3jgyrwe6kosn" path="res://addons/json-atlas/Scripts/atlas_texture_json.gd" id="7_brk6j"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aawj2"]
 content_margin_top = 5.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fssdo"]
+atlas = ExtResource("5_pylin")
+region = Rect2(0, 0, 16, 16)
+script = ExtResource("7_brk6j")
+symbol = "Stop"
+texture = ExtResource("5_pylin")
+split_frames = false
+frame = 0
+filename_frame_pattern = &"{tag}{tagframe0000}"
+frame_behaviour = 0
+show_debug = false
+json_file = ExtResource("6_u4o82")
+symbols = PackedStringArray("Stop", "Loop")
+frames = Dictionary[StringName, PackedVector4Array]({
+&"Loop": PackedVector4Array(16, 0, 16, 16),
+&"Stop": PackedVector4Array(0, 0, 16, 16)
+})
+metadata/_custom_type_script = "uid://c3jgyrwe6kosn"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmjy7"]
+atlas = ExtResource("5_pylin")
+region = Rect2(16, 0, 16, 16)
+script = ExtResource("7_brk6j")
+symbol = "Loop"
+texture = ExtResource("5_pylin")
+split_frames = false
+frame = 0
+filename_frame_pattern = &"{tag}{tagframe0000}"
+frame_behaviour = 0
+show_debug = false
+json_file = ExtResource("6_u4o82")
+symbols = PackedStringArray("Stop", "Loop")
+frames = Dictionary[StringName, PackedVector4Array]({
+&"Loop": PackedVector4Array(16, 0, 16, 16),
+&"Stop": PackedVector4Array(0, 0, 16, 16)
+})
+metadata/_custom_type_script = "uid://c3jgyrwe6kosn"
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h4f7d"]
 content_margin_left = 30.0
@@ -14,7 +56,7 @@ content_margin_left = 30.0
 [node name="Import" type="ConfirmationDialog" node_paths=PackedStringArray("file_line_edit", "dir_line_edit", "scale_container")]
 title = "AtlasTextureJSONs importing"
 initial_position = 2
-size = Vector2i(750, 770)
+size = Vector2i(750, 405)
 visible = true
 wrap_controls = false
 transient = false
@@ -32,9 +74,9 @@ anchor_top = 0.023
 anchor_right = 0.984
 anchor_bottom = 0.86
 offset_left = -4.0
-offset_top = -9.71
+offset_top = -1.315
 offset_right = 4.0
-offset_bottom = 58.8
+offset_bottom = 7.69998
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VSplitContainer" parent="PanelContainer"]
@@ -48,6 +90,7 @@ offset_right = -4.0
 offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
+split_offset = 75
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -58,7 +101,7 @@ layout_mode = 2
 text = "Import parameters:"
 
 [node name="PanelContainer" type="Panel" parent="PanelContainer/VBoxContainer/VBoxContainer"]
-self_modulate = Color(0.75, 0.75, 0.75, 1)
+self_modulate = Color(0.9, 0.9, 0.9, 1)
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -254,8 +297,10 @@ size_flags_horizontal = 3
 selected = 0
 item_count = 2
 popup/item_0/text = "Stop"
+popup/item_0/icon = SubResource("AtlasTexture_fssdo")
 popup/item_0/id = 3
 popup/item_1/text = "Loop"
+popup/item_1/icon = SubResource("AtlasTexture_dmjy7")
 popup/item_1/id = 4
 
 [node name="ScaleBehParam2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer"]
@@ -318,117 +363,43 @@ text = "Edit"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 7
 
-[node name="CheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
+[node name="AllCheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 button_pressed = true
 text = "All"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-button_pressed = true
-text = "Symbol"
-
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "frames:"
-
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-prefix = "from"
-
-[node name="SpinBox2" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-prefix = "to"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-button_pressed = true
-text = "Symbol"
-
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "frames:"
-
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-prefix = "from"
-
-[node name="SpinBox2" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-prefix = "to"
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-size_flags_horizontal = 3
-button_pressed = true
-text = "Symbol"
-
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-text = "frames:"
-
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-prefix = "from"
-
-[node name="SpinBox2" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer3"]
-layout_mode = 2
-prefix = "to"
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer3" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-size_flags_horizontal = 3
-button_pressed = true
-text = "Symbol"
-
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-text = "frames:"
-
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-prefix = "from"
-
-[node name="SpinBox2" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer4"]
-layout_mode = 2
-prefix = "to"
-
-[node name="HBoxContainer5" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer4" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer5"]
+[node name="HBoxContainer5" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
 layout_mode = 2
-size_flags_horizontal = 3
-button_pressed = true
-text = "Symbol"
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer5"]
+[node name="HBoxContainer6" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
 layout_mode = 2
-text = "frames:"
 
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer5"]
+[node name="HBoxContainer7" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
 layout_mode = 2
-prefix = "from"
 
-[node name="SpinBox2" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/HBoxContainer5"]
+[node name="HBoxContainer8" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
 layout_mode = 2
-prefix = "to"
+
+[node name="HBoxContainer9" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer/VBoxContainer" instance=ExtResource("5_h4f7d")]
+layout_mode = 2
 
 [node name="IgnorParam2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -452,6 +423,7 @@ toggle_mode = true
 text = "Edit"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="HBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam2/HBoxContainer/VBoxContainer"]
@@ -620,7 +592,6 @@ mouse_filter = 1
 placeholder_text = "Name... (empty = use name form`data.frames`)"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 

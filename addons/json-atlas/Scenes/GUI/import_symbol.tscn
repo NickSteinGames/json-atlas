@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://xwtvp7olemvm"]
+
+[ext_resource type="Script" uid="uid://32v06h5i38ey" path="res://addons/json-atlas/Scripts/import_symbol.gd" id="1_vgxdk"]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+offset_right = 391.0
+offset_bottom = 31.0
+script = ExtResource("1_vgxdk")
+
+[node name="CheckBox" type="CheckBox" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "Symbol"
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 2
+text = "frames:"
+
+[node name="SpinBox" type="SpinBox" parent="."]
+visible = false
+layout_mode = 2
+prefix = "from"
+
+[node name="SpinBox2" type="SpinBox" parent="."]
+visible = false
+layout_mode = 2
+prefix = "to"
+
+[connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="SpinBox2" to="." method="_on_spin_box_2_value_changed"]
