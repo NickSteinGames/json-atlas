@@ -246,7 +246,6 @@ tooltip_text = "The Frame Behaviour of behaviour for frame when it is set.
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FramesBehParam"]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_aawj2")
 text = "Frames Behaviour:"
 
 [node name="OptionButton" type="OptionButton" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FramesBehParam"]
@@ -267,7 +266,6 @@ tooltip_text = "Interpolation for sclaing.
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/ScaleBehParam2"]
 layout_mode = 2
 size_flags_vertical = 0
-theme_override_styles/normal = SubResource("StyleBoxEmpty_aawj2")
 text = "Nums Symbol Frame:"
 
 [node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/ScaleBehParam2"]
@@ -320,6 +318,12 @@ text = "Edit"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer"]
 layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "All"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnorParam/HBoxContainer/VBoxContainer"]
 layout_mode = 2
