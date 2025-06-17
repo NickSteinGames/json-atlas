@@ -23,6 +23,10 @@ signal data_compiled
 ## [br]Set by [method set_symbol].
 @export var symbol: String = "": set = set_symbol
 
+## The source [Texture2D] image from which the image will be taken for output.
+## [br]Set by [method set_texture]
+@export var texture: Texture2D: set = set_texture
+
 ##if [code]true[/code], [AtlasTextureJSON] splits [param symbols] and [param symbol`s frame].[br]
 ##Its only find nums at end of [param Symbol name], and if your symbol has nums at end ([code]Frog01[/code], [code]Frog02[/code] eg.), its makes frames for first symbol with same name without nums at end (after removing "frames nums")[br]
 @export var split_frames: bool = true: set = set_split_frames
@@ -31,41 +35,28 @@ signal data_compiled
 ## [br]Set by [method set_frame].
 @export var frame: int = 0: set = set_frame
 
-## The source [Texture2D] image from which the image will be taken for output.
-## [br]Set by [method set_texture]
-@export var texture: Texture2D: set = set_texture
-
-@export_group("Parameters")
-## The [Vector2] amount that the [member texture] will be scaled by.
-## [br]Set by [method set_scale].
-@export_custom(PROPERTY_HINT_LINK, "")
-var scale: Vector2 = Vector2(1.0, 1.0):
-	set = set_scale
+##Pattern, what you use if you exports sprite-sheet from Aseprite.[br]
+##By default, it use something like exporting "pattern" from [b]Adobe Animate[/b] (4 nums at end for seperate frames)[br]
+@export var filename_frame_pattern: StringName = "{tag}{tagframe0000}"
 
 ## The [enum FrameBehaviourTypes] type of behaviour for [member frame] when it is set.
 @export var frame_behaviour: FrameBehaviourTypes = FrameBehaviourTypes.STOP
 
-## The [enum Image.Interpolation] behaviour for the scaling of the texture.
-@export var scale_behaviour: Image.Interpolation = Image.Interpolation.INTERPOLATE_NEAREST
+
 
 @export_group("Debug")
-@export var show_debug: bool:
+@export_storage var show_debug: bool:
 	set(v): show_debug = v; notify_property_list_changed()
 #region STORAGE
 ## [JSON] file with the atlas data for the [member texture].
 ## [br]Set by [method set_json_file].
-@export var json_file: JSON: set = _set_json_file
+@export_storage var json_file: JSON: set = _set_json_file
 
 ## A [PackedStringArray] that stores the [String] symbol names to be used within the animation.
-@export var symbols: PackedStringArray
+@export_storage var symbols: PackedStringArray
 
 ## Stores the [Array] of [Rect2i] ([Vector4]) frames to be used within the animation.
-@export var frames: Dictionary[StringName, PackedVector4Array]
-
-## The [ImageTexture] used as the [member AtlasTexture.atlas].
-## Acts as the [member texture] with effects via [member scale] applied.
-## [br]Set by [method _set_image]
-@export var _image: ImageTexture: set = _set_image
+@export_storage var frames: Dictionary[StringName, PackedVector4Array]
 #endregion
 
 
@@ -89,14 +80,7 @@ func get_frame_count(symbol_name: String = symbol) -> int:
 ## Creates a [String] hint-string of symbol names.
 ## [br]Used fo the [member symbol]'s export property, see [method _validate_property].
 func _get_symbols_hint_string() -> String:
-	if !symbols.has(symbol):
-		symbol = symbols[0]
 	return ",".join(symbols)
-
-## Creates a [String] hint-string of frame titles.
-## [br]Used for the [member frame]'s export property, see [method _validate_property].
-func _get_frames_hint_string() -> String:
-	return ",".join(frames.keys())
 #endregion
 
 # Everything, whats starts with [set_*]/[_set_*].
@@ -108,11 +92,12 @@ func set_symbol(new_symbol: String) -> void:
 	if !symbols.has(new_symbol):
 		if new_symbol != "":
 			printerr("Symbol `%s` not found!" % new_symbol)
-		symbol = symbols.get(0)
+		symbol = symbols[0]
 		set_frame(frame)
 		return
 	symbol = new_symbol
 	set_frame(frame)
+
 
 ## Set current [member frame] to the given [String] [param new_frame].
 func set_frame(new_frame: int) -> void:
@@ -141,14 +126,6 @@ func set_frame(new_frame: int) -> void:
 	# Sets the values
 	frame = new_frame
 	region = vec4_to_rect2(frames[symbol][frame])
-	region.size *= scale
-	region.position *= scale
-
-## Sets [member _image] to the given [ImageTexture] [param new_image]
-func _set_image(new_image: ImageTexture) -> void:
-	_image = new_image
-	#_update_image()
-	atlas = _image
 
 ## Sets the [member texture] to the given [Texture2D] [param new_texture].
 func set_texture(new_texture: Texture2D) -> void:
@@ -160,7 +137,7 @@ func set_texture(new_texture: Texture2D) -> void:
 		)
 		if FileAccess.file_exists(path):
 			json_file = load(path)
-			_update_image()
+			atlas = new_texture
 		else:
 			printerr("JSON file for `%s` doesn`t exist!" % texture.resource_path.get_file())
 	else:
@@ -182,16 +159,10 @@ func _set_json_file(given_file: JSON) -> void:
 	else:
 		old_json.changed.disconnect(_update_json)
 
-## Sets the [member scale] to the given [Vector2] [param new_scale].
-func set_scale(new_scale: Vector2) -> void:
-	scale.x = max(new_scale.x, 0.05)
-	scale.y = max(new_scale.y, 0.05)
-	_update_image()
-
 ## Sets the [member split_frames] to the given [bool] [param new].
 func set_split_frames(new: bool):
 	split_frames = new
-	_update_json()
+	_update_all()
 	notify_property_list_changed()
 
 #endregion
@@ -218,9 +189,11 @@ func _load_json() -> void:
 			symbolName = chunk["filename"]
 		
 		if split_frames:
-			var serch =  RegEx.create_from_string("(?'frame'\\d*)$").search(symbolName)
-			if serch:
-				symbolName = symbolName.substr(0, symbolName.length() - (serch.strings[serch.names.frame] as String).length())
+			var serch: RegExMatch =  RegEx.create_from_string("\\{tagframe(?'frame'\\d*)\\}").search(filename_frame_pattern)
+			if serch.strings[serch.names.frame]:
+				symbolName = symbolName.substr(0, symbolName.length() - serch.strings[serch.names.frame].length())
+			else:
+				symbolName = symbolName.substr(0, symbolName.length() - 4)
 		
 		if !symbols.has(symbolName):
 			symbols.append(symbolName)
@@ -237,24 +210,9 @@ func _load_json() -> void:
 
 ## Reloads the [member json_file] if changed.
 func _update_json() -> void:
-	json_file = load(json_file.resource_path)
-
-## Updates the image displayed depending on the [member texture]
-## and the [member scale].
-func _update_image() -> void:
-	if texture:
-		var img: Image = texture.get_image().duplicate()
-		#img.get_region(vec4_to_rect2(frames[StringName(symbol)][frame]))
-		img.resize(
-			round(texture.get_width() * scale.x),
-			round(texture.get_height() * scale.y),
-			scale_behaviour
-		)
-		_image = ImageTexture.create_from_image(img)
-	set_frame(frame)
+	if json_file: json_file = load(json_file.resource_path)
 
 func _update_all():
-	_update_image()
 	_update_json()
 	set_symbol(symbol)
 
@@ -265,7 +223,7 @@ func _validate_property(property: Dictionary) -> void:
 		"symbol":
 			property.hint = PROPERTY_HINT_ENUM
 			property.hint_string = _get_symbols_hint_string()
-		"frame": if !split_frames: property.usage = PROPERTY_USAGE_NO_EDITOR
+		"frame", "filename_frame_pattern", "frame_behaviour": if !split_frames: property.usage = PROPERTY_USAGE_NO_EDITOR
 		"atlas", "region":
 			if !show_debug:
 				property.usage = PROPERTY_USAGE_NO_EDITOR
