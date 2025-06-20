@@ -125,6 +125,27 @@
 				"h": 32.0
 			},
 			"duration": 100.0
+		},
+		"StrageSquar00000": {
+			"frame": {
+				"x": 144.0,
+				"y": 0.0,
+				"w": 28.0,
+				"h": 28.0
+			},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {
+				"x": 2.0,
+				"y": 2.0,
+				"w": 28.0,
+				"h": 28.0
+			},
+			"sourceSize": {
+				"w": 32.0,
+				"h": 32.0
+			},
+			"duration": 100.0
 		}
 	},
 	"meta": {
@@ -133,7 +154,7 @@
 		"image": "squar.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 144.0,
+			"w": 172.0,
 			"h": 28.0
 		},
 		"scale": "1",
@@ -149,6 +170,13 @@
 				"name": "SquarIdk",
 				"from": 3.0,
 				"to": 5.0,
+				"direction": "forward",
+				"color": "#000000ff"
+			},
+			{
+				"name": "StrageSquar",
+				"from": 6.0,
+				"to": 6.0,
 				"direction": "forward",
 				"color": "#000000ff"
 			}

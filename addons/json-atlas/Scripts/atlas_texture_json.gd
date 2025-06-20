@@ -37,16 +37,16 @@ signal data_compiled
 
 ##Pattern, what you use if you exports sprite-sheet from Aseprite.[br]
 ##By default, it use something like exporting "pattern" from [b]Adobe Animate[/b] (4 nums at end for seperate frames)[br]
-@export var filename_frame_pattern: StringName = "{tag}{tagframe0000}"
+@export var frames_end_nums: int = 4
 
 ## The [enum FrameBehaviourTypes] type of behaviour for [member frame] when it is set.
 @export var frame_behaviour: FrameBehaviourTypes = FrameBehaviourTypes.STOP
 
 
 
-@export_group("Debug")
 @export_storage var show_debug: bool:
 	set(v): show_debug = v; notify_property_list_changed()
+@export_group("Debug")
 #region STORAGE
 ## [JSON] file with the atlas data for the [member texture].
 ## [br]Set by [method set_json_file].
@@ -91,8 +91,8 @@ func set_symbol(new_symbol: String) -> void:
 		await data_compiled
 	if !symbols.has(new_symbol):
 		if new_symbol != "":
-			printerr("Symbol `%s` not found!" % new_symbol)
-		symbol = symbols[0]
+			printerr("Symbol \""+new_symbol+"\" not found!")
+		symbol = symbols.get(0)
 		set_frame(frame)
 		return
 	symbol = new_symbol
@@ -104,7 +104,6 @@ func set_frame(new_frame: int) -> void:
 	if !frames.has(symbol):
 		if symbols.is_empty():
 			return
-		symbol = symbol
 	
 	# Just wait...
 	if frames.is_empty():
@@ -189,11 +188,9 @@ func _load_json() -> void:
 			symbolName = chunk["filename"]
 		
 		if split_frames:
-			var serch: RegExMatch =  RegEx.create_from_string("\\{tagframe(?'frame'\\d*)\\}").search(filename_frame_pattern)
-			if serch.strings[serch.names.frame]:
-				symbolName = symbolName.substr(0, symbolName.length() - serch.strings[serch.names.frame].length())
-			else:
-				symbolName = symbolName.substr(0, symbolName.length() - 4)
+			var reg = RegEx.create_from_string("(?<frame>\\d{%s})$" % frames_end_nums)
+			if reg.search(symbolName):
+				symbolName = symbolName.substr(0, symbolName.length() - frames_end_nums)
 		
 		if !symbols.has(symbolName):
 			symbols.append(symbolName)
@@ -215,6 +212,7 @@ func _update_json() -> void:
 func _update_all():
 	_update_json()
 	set_symbol(symbol)
+	notify_property_list_changed()
 
 #endregion
 
@@ -223,9 +221,14 @@ func _validate_property(property: Dictionary) -> void:
 		"symbol":
 			property.hint = PROPERTY_HINT_ENUM
 			property.hint_string = _get_symbols_hint_string()
-		"frame", "filename_frame_pattern", "frame_behaviour": if !split_frames: property.usage = PROPERTY_USAGE_NO_EDITOR
+		"frames_end_nums", "frame_behaviour":
+			if !split_frames:
+				property.usage = PROPERTY_USAGE_NO_EDITOR
 		"atlas", "region":
-			if !show_debug:
+			if show_debug:
+				property.usage = PROPERTY_USAGE_EDITOR
+		"frame":
+			if frames[symbol].size() == 1 || !split_frames:
 				property.usage = PROPERTY_USAGE_NO_EDITOR
 
 func vec4_to_rect2(vector: Vector4) -> Rect2:

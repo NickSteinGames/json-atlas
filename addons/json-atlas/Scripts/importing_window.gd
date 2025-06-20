@@ -3,6 +3,9 @@ extends ConfirmationDialog
 
 @export var file_line_edit: LineEdit
 @export var dir_line_edit: LineEdit
+
+
+
 @export var scale_container: BoxContainer
 
 func _ready() -> void:
@@ -45,3 +48,9 @@ func _on_inport_dir_selected(path: String):
 
 func _on_confirmed() -> void:
 	queue_free()
+
+func get_main_data() -> Dictionary:
+	return {
+		"save_dir":  dir_line_edit.get_text(),
+		"frames_behaviour": AtlasTextureJSON.FrameBehaviourTypes.STOP
+	}
