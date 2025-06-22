@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcjqjw2uvheoj"]
+
+[ext_resource type="Script" uid="uid://qat13fs2cbka" path="res://addons/json-atlas/Scripts/filename_pattern_tooltip.gd" id="1_xhcsy"]
+
+[node name="FilenamePatternTooltip" type="Control"]
+custom_minimum_size = Vector2(676, 310)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(100, 100)
+script = ExtResource("1_xhcsy")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "File name pattern for imported files.
+[color=light_cyan][url={sourcefile}]{sourcefile}[/url][/color] - Source file`s name. (`sprite.png` -> `sprite` eg.)
+[color=light_cyan][url={symbol}]{symbol}[/url][/color] - The name of the symbol that is being imported.
+[color=light_cyan][url={symbolnum}]{symbolnum}[/url][/color] - Number of of the symbol that is being imported.
+
+in [u]{sourcefile}[/u] and [u]{symbol}[/u] you can add next words to change string`s case:
+  • [color=light_cyan][url={symbol:snake}]:snake[/url][/color] - Make text in [url=mtd:class_method:String:to_snake_case]snake_case[/url]
+  • [color=light_cyan][url={symbol:camel}]:camel[/url][/color] - Make text in [url=mtd:class_method:String:to_camel_case]camelCase`[/url]
+  • [color=light_cyan][url={symbol:pascal}]:pascal[/url][/color] - Make text in [url=mtd:class_method:String:to_pascal_case]PascalCase`[/url]
+  • [color=light_cyan][url={symbol:upper}]:upper[/url][/color] - Convertes texr into [url=mtd:class_method:String:to_upper]UPPER`[/url]
+  • [color=light_cyan][url={symbol:lower}]:lower[/url][/color] - Convertes texr into [url=mtd:class_method:String:to_lower]lower`[/url]
+  • [color=light_cyan][url={symbol:capitalize}]:capitalize[/url][/color] - Capitalize the text."
+
+[connection signal="meta_clicked" from="RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]

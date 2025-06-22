@@ -42,11 +42,8 @@ signal data_compiled
 ## The [enum FrameBehaviourTypes] type of behaviour for [member frame] when it is set.
 @export var frame_behaviour: FrameBehaviourTypes = FrameBehaviourTypes.STOP
 
+#@export var symbols_offets: Dictionary[String, Rect2]
 
-
-@export_storage var show_debug: bool:
-	set(v): show_debug = v; notify_property_list_changed()
-@export_group("Debug")
 #region STORAGE
 ## [JSON] file with the atlas data for the [member texture].
 ## [br]Set by [method set_json_file].
@@ -85,6 +82,7 @@ func _get_symbols_hint_string() -> String:
 
 # Everything, whats starts with [set_*]/[_set_*].
 #region SET
+
 ## Sets current [member symbol] to the given [String] [param new_ymbol].
 func set_symbol(new_symbol: String) -> void:
 	if symbols.is_empty():
@@ -92,9 +90,8 @@ func set_symbol(new_symbol: String) -> void:
 	if !symbols.has(new_symbol):
 		if new_symbol != "":
 			printerr("Symbol \""+new_symbol+"\" not found!")
-		symbol = symbols.get(0)
-		set_frame(frame)
-		return
+		new_symbol = symbols.get(0)
+	
 	symbol = new_symbol
 	set_frame(frame)
 
@@ -225,11 +222,19 @@ func _validate_property(property: Dictionary) -> void:
 			if !split_frames:
 				property.usage = PROPERTY_USAGE_NO_EDITOR
 		"atlas", "region":
-			if show_debug:
-				property.usage = PROPERTY_USAGE_EDITOR
+			property.usage = PROPERTY_USAGE_NO_EDITOR
 		"frame":
-			if frames[symbol].size() == 1 || !split_frames:
+			if frames && frames[StringName(symbol)].size() == 1 || !split_frames:
 				property.usage = PROPERTY_USAGE_NO_EDITOR
+		"symbols_offets":
+			property.hint_string = "%d/%d:%s;%d:" % [
+				TYPE_STRING,
+				PROPERTY_HINT_ENUM,
+				_get_symbols_hint_string(),
+				TYPE_RECT2
+			]
+
+
 
 func vec4_to_rect2(vector: Vector4) -> Rect2:
 	return Rect2(
