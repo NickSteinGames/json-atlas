@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://lfbemlc53kld"
-path="res://.godot/imported/sprite_frames_json.svg-de3215a53427f7421665774629b11658.ctex"
+path="res://.godot/imported/sprite_frames_json.svg-642b5d81509935c731ac538efb8f5362.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/json-atlas/Scripts/sprite_frames_json.svg"
-dest_files=["res://.godot/imported/sprite_frames_json.svg-de3215a53427f7421665774629b11658.ctex"]
+source_file="res://addons/json-atlas/scripts/sprite_frames_json.svg"
+dest_files=["res://.godot/imported/sprite_frames_json.svg-642b5d81509935c731ac538efb8f5362.ctex"]
 
 [params]
 

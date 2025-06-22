@@ -20,7 +20,7 @@ func _on_atj_submenu_id_pressed(id: int):
 		_: pass
 
 func open_json_import():
-	const IMPORTING_WINDOW = preload("res://addons/json-atlas/Scenes/importing_window.tscn")
+	const IMPORTING_WINDOW = preload("res://addons/json-atlas/scenes/importing_window.tscn")
 	var window = IMPORTING_WINDOW.instantiate()
 	window.size = Vector2i(750, 500)
 	EditorInterface.popup_dialog_centered(window)

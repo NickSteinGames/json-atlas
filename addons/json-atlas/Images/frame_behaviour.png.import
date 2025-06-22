@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b2d7v6d03usn"
-path="res://.godot/imported/frame_behaviour.png-6b2388d63c193490c54079be91c71f2b.ctex"
+path="res://.godot/imported/frame_behaviour.png-4ffbe56b228584ea4612c76b8f16c269.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/json-atlas/Images/frame_behaviour.png"
-dest_files=["res://.godot/imported/frame_behaviour.png-6b2388d63c193490c54079be91c71f2b.ctex"]
+source_file="res://addons/json-atlas/images/frame_behaviour.png"
+dest_files=["res://.godot/imported/frame_behaviour.png-4ffbe56b228584ea4612c76b8f16c269.ctex"]
 
 [params]
 

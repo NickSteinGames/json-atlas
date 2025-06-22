@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://doiginlp6eq5l" path="res://Test/aseprite.png" id="1_pf2jc"]
 [ext_resource type="JSON" path="res://Test/aseprite.json" id="2_pbnok"]
-[ext_resource type="Script" uid="uid://c3jgyrwe6kosn" path="res://addons/json-atlas/Scripts/atlas_texture_json.gd" id="2_s4i0d"]
-[ext_resource type="Script" uid="uid://cuoiydvrn4d5w" path="res://new_script.gd" id="4_s4i0d"]
+[ext_resource type="Script" uid="uid://c3jgyrwe6kosn" path="res://addons/json-atlas/scripts/atlas_texture_json.gd" id="2_s4i0d"]
+[ext_resource type="Script" path="res://new_script.gd" id="4_s4i0d"]
 
 [sub_resource type="GDScript" id="GDScript_pf2jc"]
 resource_name = "Test"
