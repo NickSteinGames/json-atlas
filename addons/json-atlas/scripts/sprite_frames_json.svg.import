@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvv5v2hwj331n"
-path="res://.godot/imported/dir_icon.png-4b14d299718ea4c4fb10e1c2ab956f35.ctex"
+uid="uid://lfbemlc53kld"
+path="res://.godot/imported/sprite_frames_json.svg-642b5d81509935c731ac538efb8f5362.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/json-atlas/Images/dir_icon.png"
-dest_files=["res://.godot/imported/dir_icon.png-4b14d299718ea4c4fb10e1c2ab956f35.ctex"]
+source_file="res://addons/json-atlas/scripts/sprite_frames_json.svg"
+dest_files=["res://.godot/imported/sprite_frames_json.svg-642b5d81509935c731ac538efb8f5362.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

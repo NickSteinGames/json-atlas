@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dcjqjw2uvheoj"]
 
-[ext_resource type="Script" uid="uid://qat13fs2cbka" path="res://addons/json-atlas/Scripts/filename_pattern_tooltip.gd" id="1_xhcsy"]
+[ext_resource type="Script" uid="uid://qat13fs2cbka" path="res://addons/json-atlas/scripts/filename_pattern_tooltip.gd" id="1_xhcsy"]
 
 [node name="FilenamePatternTooltip" type="Control"]
 custom_minimum_size = Vector2(676, 310)

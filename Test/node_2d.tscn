@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=4 uid="uid://dprutu1f2icny"]
+
+[ext_resource type="Texture2D" uid="uid://doiginlp6eq5l" path="res://Test/aseprite.png" id="1_pf2jc"]
+[ext_resource type="JSON" path="res://Test/aseprite.json" id="2_pbnok"]
+[ext_resource type="Script" uid="uid://c3jgyrwe6kosn" path="res://addons/json-atlas/scripts/atlas_texture_json.gd" id="2_s4i0d"]
+[ext_resource type="Script" path="res://new_script.gd" id="4_s4i0d"]
+
+[sub_resource type="GDScript" id="GDScript_pf2jc"]
+resource_name = "Test"
+script/source = "extends Node2D
+
+class PatternGroup:
+	var content: String = \"\"
+	var number: int = 0
+	
+	func _to_string() -> String:
+		return \"{\"+content + \" \" + str(number) + \"}\"
+
+func _ready() -> void:
+	var patternOrder: Array[PatternGroup]
+	var myReg: RegEx = RegEx.create_from_string(\"{(?<content>.*?(?<number>\\\\d*?))}\")
+	for i: RegExMatch in myReg.search_all(\"{symbol},abc{symbolFrame0000}\"):
+		var newPatGroup: PatternGroup = PatternGroup.new()
+		newPatGroup.content = i.get_string(\"content\")
+		newPatGroup.number = i.get_string(\"number\").length()
+		patternOrder.append(newPatGroup)
+		print(patternOrder)
+	
+	if patternOrder[0].content == \"symbol\" and patternOrder[1].content.begins_with(\"symbolFrame\"):
+		print(\"CHARS TO REMOVE FROM BACK: \"+str(patternOrder[1].number))
+	elif patternOrder[0].content.begins_with(\"symbolFrame\") and patternOrder[1].content == \"symbol\":
+		print(\"CHARS TO REMOVE FROM FRONT: \"+str(patternOrder[0].number))
+	else:
+		printerr(\"INVALID\")
+	patternOrder.clear()
+	for i: RegExMatch in myReg.search_all(\"{symbolFrame00}{symbol}\"):
+		var newPatGroup: PatternGroup = PatternGroup.new()
+		newPatGroup.content = i.get_string(\"content\")
+		newPatGroup.number = i.get_string(\"number\").length()
+		patternOrder.append(newPatGroup)
+		print(patternOrder)
+	
+	if patternOrder[0].content == \"symbol\" and patternOrder[1].content.begins_with(\"symbolFrame\"):
+		print(\"CHARS TO REMOVE FROM BACK: \"+str(patternOrder[1].number))
+	elif patternOrder[0].content.begins_with(\"symbolFrame\") and patternOrder[1].content == \"symbol\":
+		print(\"CHARS TO REMOVE FROM FRONT: \"+str(patternOrder[0].number))
+	else:
+		printerr(\"INVALID\")
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pf2jc"]
+atlas = ExtResource("1_pf2jc")
+region = Rect2(4, 4, 66, 61)
+script = ExtResource("2_s4i0d")
+symbol = "symbol1"
+texture = ExtResource("1_pf2jc")
+split_frames = true
+frame = 0
+frames_end_nums = 4
+frame_behaviour = 0
+json_file = ExtResource("2_pbnok")
+symbols = PackedStringArray("symbol1", "symbol2")
+frames = Dictionary[StringName, PackedVector4Array]({
+&"symbol1": PackedVector4Array(4, 4, 66, 61, 74, 4, 66, 61, 144, 4, 66, 61, 4, 69, 66, 61),
+&"symbol2": PackedVector4Array(74, 69, 66, 61, 144, 69, 66, 61, 4, 134, 66, 61, 74, 134, 66, 61)
+})
+metadata/_custom_type_script = "uid://c3jgyrwe6kosn"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pbnok"]
+script = ExtResource("4_s4i0d")
+metadata/_custom_type_script = "uid://cuoiydvrn4d5w"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_pf2jc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(137, 95)
+texture = SubResource("AtlasTexture_pf2jc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pbnok")

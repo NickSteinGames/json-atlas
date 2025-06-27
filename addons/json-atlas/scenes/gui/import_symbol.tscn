@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://xwtvp7olemvm"]
 
-[ext_resource type="Script" uid="uid://32v06h5i38ey" path="res://addons/json-atlas/Scripts/import_symbol.gd" id="1_vgxdk"]
+[ext_resource type="Script" uid="uid://32v06h5i38ey" path="res://addons/json-atlas/scripts/import_symbol.gd" id="1_vgxdk"]
 
 [node name="HBoxContainer" type="HBoxContainer"]
 offset_right = 391.0
