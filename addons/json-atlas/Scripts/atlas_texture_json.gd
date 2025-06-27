@@ -37,7 +37,8 @@ signal data_compiled
 
 ##Pattern, what you use if you exports sprite-sheet from Aseprite.[br]
 ##By default, it use something like exporting "pattern" from [b]Adobe Animate[/b] (4 nums at end for seperate frames)[br]
-@export var frames_end_nums: int = 4
+@export var frames_end_nums: int = 4:
+	set(v): frames_end_nums = v; _update_json()
 
 ## The [enum FrameBehaviourTypes] type of behaviour for [member frame] when it is set.
 @export var frame_behaviour: FrameBehaviourTypes = FrameBehaviourTypes.STOP
@@ -60,10 +61,10 @@ signal data_compiled
 ## Enum to define the behaviour of out-of-bounds sets to [member frame].
 enum FrameBehaviourTypes {
 	## Clamp higher/lower values of the max/min when setting [member frame].
-	STOP,
+	STOP = 0,
 	## Loop the frames forward/backward. Setting [member frame] higher/lower than the max/min
 	## will loop to the start/end.
-	LOOP,
+	LOOP = 1,
 }
 
 # Everything, whats starts with [get_*]/[_get_*].
@@ -94,6 +95,7 @@ func set_symbol(new_symbol: String) -> void:
 	
 	symbol = new_symbol
 	set_frame(frame)
+	notify_property_list_changed()
 
 
 ## Set current [member frame] to the given [String] [param new_frame].

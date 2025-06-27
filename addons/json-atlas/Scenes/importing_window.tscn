@@ -82,7 +82,7 @@ func _gui_input(event: InputEvent) -> void:
 			add_theme_font_size_override(\"normal_font_size\", max(get_theme_font_size(\"bold_font_size\") - 2, 8))
 "
 
-[node name="Import" type="ConfirmationDialog" node_paths=PackedStringArray("file_line_edit", "dir_line_edit", "extention_selector", "filename_pattern_line_edit", "frames_behaviour_selector", "ignoring_pattern_line_edit", "preview_rich_lable", "file_err_label", "symbols_import_togglers", "all_symbols_imported_button")]
+[node name="Import" type="ConfirmationDialog" node_paths=PackedStringArray("file_line_edit", "dir_line_edit", "extention_selector", "filename_pattern_line_edit", "frames_behaviour_selector", "ignoring_pattern_line_edit", "preview_rich_lable", "file_err_label", "symbols_import_togglers", "all_symbols_imported_button", "frames_end_nums_spin_box")]
 title = "AtlasTextureJSON Import Tool"
 initial_position = 2
 size = Vector2i(750, 830)
@@ -101,6 +101,7 @@ preview_rich_lable = NodePath("PanelContainer/VBoxContainer/VBoxContainer2/Panel
 file_err_label = NodePath("PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FileErrLabel")
 symbols_import_togglers = NodePath("PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/ImportedSymbolsParam/HBoxContainer/VBoxContainer/SymbolsImportTogglers")
 all_symbols_imported_button = NodePath("PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/ImportedSymbolsParam/HBoxContainer/VBoxContainer/AllCheckBox")
+frames_end_nums_spin_box = NodePath("PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FramesNumsrParam/FramesEndNumsSpinBox")
 
 [node name="PanelContainer" type="Panel" parent="."]
 anchors_preset = -1
@@ -130,6 +131,7 @@ split_offset = -200
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="Label2" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -242,7 +244,7 @@ layout_mode = 2
 size_flags_vertical = 1
 text = "Frames End Nums:"
 
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FramesNumsrParam"]
+[node name="FramesEndNumsSpinBox" type="SpinBox" parent="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FramesNumsrParam"]
 layout_mode = 2
 size_flags_horizontal = 2
 value = 4.0
@@ -546,6 +548,7 @@ placeholder_text = "Name... (empty = use name form`data.frames`)"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer/VBoxContainer2"]
 layout_mode = 2
@@ -576,6 +579,7 @@ script = SubResource("GDScript_5brun")
 [connection signal="pressed" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FileParam/HBoxContainer/SelectFileButton" to="." method="_on_select_file_button_pressed"]
 [connection signal="text_changed" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/DirParam/HBoxContainer/DirLineEdit" to="." method="_on_dir_line_edit_text_changed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/DirParam/HBoxContainer/SelectDirButton" to="." method="_on_select_dir_button_pressed"]
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/FramesNumsrParam/FramesEndNumsSpinBox" to="." method="_on_frames_end_nums_spin_box_value_changed"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/IgnoringPatternParam/CheckBox" to="." method="set_ignor_pattern_ci"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/ImportedSymbolsParam/HBoxContainer/SelectDirButton" to="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/ImportedSymbolsParam/HBoxContainer/VBoxContainer" method="set_visible"]
 [connection signal="toggled" from="PanelContainer/VBoxContainer/VBoxContainer/PanelContainer/ScrollContainer/VBoxContainer/ImportedSymbolsParam/HBoxContainer/VBoxContainer/AllCheckBox" to="." method="_on_all_check_box_toggled"]

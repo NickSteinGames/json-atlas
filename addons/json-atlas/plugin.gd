@@ -24,4 +24,3 @@ func open_json_import():
 	var window = IMPORTING_WINDOW.instantiate()
 	window.size = Vector2i(750, 500)
 	EditorInterface.popup_dialog_centered(window)
-	window.popup_centered()

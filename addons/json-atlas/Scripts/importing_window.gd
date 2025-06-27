@@ -11,6 +11,7 @@ extends ConfirmationDialog
 @export var file_err_label: Label
 @export var symbols_import_togglers: VBoxContainer
 @export var all_symbols_imported_button: CheckBox
+@export var frames_end_nums_spin_box: SpinBox
 
 var source_image: Texture2D
 var json: JSON
@@ -53,10 +54,11 @@ func _ready() -> void:
 
 func import():
 	var symbol_num = 0
-	for symbol: String in source_atlas.symbols:
+	for symbol: String in get_symbols():
 		if !not_import.has(symbol):
 			var symbol_atlas: AtlasTextureJSON = source_atlas.duplicate()
-			symbol_atlas.set_symbol(symbol)
+			symbol_atlas.set_symbol(StringName(symbol))
+			symbol_atlas.frame_behaviour = frames_behaviour_selector.selected
 			var filename = get_filename(symbol)
 			var path = "{dir}/{filename}{extention}".format({
 				"dir": dir_line_edit.get_text(),
@@ -66,8 +68,13 @@ func import():
 			symbol_num += 1 
 			var err = ResourceSaver.save(symbol_atlas, path)
 			if err != OK:
+				printerr("AtlasTextureJSON Import Tool: cna`t save symbol `{symbol}` by path \"{path}\", error - {error}".format({
+					"symbol": symbol,
+					"path": path,
+					"error": error_string(err)
+				}))
 				update_imported_text([symbol])
-				break
+				return
 	queue_free()
 
 func update_symbols():
@@ -155,6 +162,7 @@ func _on_file_line_edit_text_changed(new_text: String) -> void:
 			
 			var new_atlas = AtlasTextureJSON.new()
 			new_atlas.set_texture(source_image)
+			new_atlas.frames_end_nums = frames_end_nums_spin_box.value
 			
 			source_atlas = new_atlas
 			file_err_label.hide()
@@ -246,3 +254,9 @@ func _on_all_check_box_toggled(toggled_on: bool) -> void:
 func set_ignor_pattern_ci(toggled_on: bool) -> void:
 	ignor_pattern_ci = toggled_on
 	update_symbols()
+
+
+func _on_frames_end_nums_spin_box_value_changed(value: float) -> void:
+	if source_atlas:
+		source_atlas.frames_end_nums = value
+		update_symbols()
