@@ -1,0 +1,22 @@
+[gd_resource type="AtlasTexture" script_class="AtlasTextureJSON" load_steps=4 format=4 uid="uid://claxhcq4oi078"]
+
+[ext_resource type="Texture2D" uid="uid://doiginlp6eq5l" path="res://Test/aseprite.png" id="1_c0d5i"]
+[ext_resource type="JSON" path="res://Test/aseprite.json" id="2_mgjku"]
+[ext_resource type="Script" uid="uid://c3jgyrwe6kosn" path="res://addons/json-atlas/scripts/atlas_texture_json.gd" id="3_iug35"]
+
+[resource]
+atlas = ExtResource("1_c0d5i")
+region = Rect2(74, 69, 66, 61)
+script = ExtResource("3_iug35")
+symbol = "symbol2"
+texture = ExtResource("1_c0d5i")
+split_frames = true
+frame = 0
+frames_end_nums = 4
+frame_behaviour = 0
+json_file = ExtResource("2_mgjku")
+symbols = PackedStringArray("symbol1", "symbol2")
+frames = Dictionary[StringName, PackedVector4Array]({
+&"symbol1": PackedVector4Array(4, 4, 66, 61, 74, 4, 66, 61, 144, 4, 66, 61, 4, 69, 66, 61),
+&"symbol2": PackedVector4Array(74, 69, 66, 61, 144, 69, 66, 61, 4, 134, 66, 61, 74, 134, 66, 61)
+})

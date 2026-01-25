@@ -1,23 +1,25 @@
 [gd_resource type="AtlasTexture" script_class="AtlasTextureJSON" load_steps=4 format=4 uid="uid://dkypty54opjuf"]
 
-[ext_resource type="JSON" path="res://Test/aseprite.json" id="1_3b1mq"]
+[ext_resource type="Texture2D" uid="uid://db8osw53211em" path="res://Test/squar.png" id="1_3b1mq"]
+[ext_resource type="JSON" path="res://Test/squar.json" id="2_ieypv"]
 [ext_resource type="Script" uid="uid://c3jgyrwe6kosn" path="res://addons/json-atlas/scripts/atlas_texture_json.gd" id="2_wrm00"]
-[ext_resource type="Texture2D" uid="uid://doiginlp6eq5l" path="res://Test/aseprite.png" id="3_wrm00"]
 
 [resource]
-atlas = ExtResource("3_wrm00")
-region = Rect2(4, 4, 66, 61)
+atlas = ExtResource("1_3b1mq")
+region = Rect2(0, 0, 28, 28)
 script = ExtResource("2_wrm00")
-symbol = "symbol1"
-texture = ExtResource("3_wrm00")
-split_frames = true
-frame = 0
-frames_end_nums = 4
-frame_behaviour = 0
-json_file = ExtResource("1_3b1mq")
-symbols = PackedStringArray("symbol1", "symbol2")
+symbol = "Squar"
+texture = ExtResource("1_3b1mq")
+frame_num_spliter = null
+json_file = ExtResource("2_ieypv")
+symbols = PackedStringArray("Squar_00000", "Squar_00001", "Squar_00002", "SquarIdk_00000", "SquarIdk_00001", "SquarIdk_00002", "StrageSquar_00000")
 frames = Dictionary[StringName, PackedVector4Array]({
-&"symbol1": PackedVector4Array(4, 4, 66, 61, 74, 4, 66, 61, 144, 4, 66, 61, 4, 69, 66, 61),
-&"symbol2": PackedVector4Array(74, 69, 66, 61, 144, 69, 66, 61, 4, 134, 66, 61, 74, 134, 66, 61)
+&"SquarIdk_00000": PackedVector4Array(72, 0, 28, 28),
+&"SquarIdk_00001": PackedVector4Array(100, 0, 24, 24),
+&"SquarIdk_00002": PackedVector4Array(124, 0, 20, 20),
+&"Squar_00000": PackedVector4Array(0, 0, 28, 28),
+&"Squar_00001": PackedVector4Array(28, 0, 24, 24),
+&"Squar_00002": PackedVector4Array(52, 0, 20, 20),
+&"StrageSquar_00000": PackedVector4Array(144, 0, 28, 28)
 })
 metadata/_custom_type_script = "uid://c3jgyrwe6kosn"

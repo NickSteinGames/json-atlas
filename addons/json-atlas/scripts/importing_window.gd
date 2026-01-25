@@ -56,9 +56,12 @@ func import():
 	var symbol_num = 0
 	for symbol: String in get_symbols():
 		if !not_import.has(symbol):
-			var symbol_atlas: AtlasTextureJSON = source_atlas.duplicate()
-			symbol_atlas.set_symbol(StringName(symbol))
-			symbol_atlas.frame_behaviour = frames_behaviour_selector.selected
+			var symbol_atlas: AtlasTextureJSON = AtlasTextureJSON.new()
+			await symbol_atlas.set_frames_end_nums(source_atlas.frames_end_nums)
+			await symbol_atlas.set_texture(source_atlas.texture)
+			await symbol_atlas._update_all()
+			
+			symbol_atlas.set_symbol(symbol)
 			var filename = get_filename(symbol)
 			var path = "{dir}/{filename}{extention}".format({
 				"dir": dir_line_edit.get_text(),
@@ -101,11 +104,8 @@ func set_preview_text(text: PackedStringArray):
 	for line in text:
 		preview_rich_lable.text += line + "\n"
 
-func update_params():
-	pass
-
 func get_symbols() -> PackedStringArray:
-	return source_atlas.symbols
+	return source_atlas.symbols if source_atlas else []
 
 #region SIGNALS
 func _on_select_file_button_pressed() -> void:

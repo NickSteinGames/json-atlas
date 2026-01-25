@@ -7,8 +7,9 @@ class_name AtlasTextureJSON
 ##
 ## [b]Notice:[/b] when exporting via Aseprite, ensure the [b]Item Filename[/b] is formatted as:
 ##[codeblock lang=text]
-##{tag}{tagframe0000}
+##{tag}_{tagframe0000}
 ##[/codeblock]
+## or somethin like that. You just need seperator for symbol name and frame.
 ##
 ## @tutorial(Adobe Animate sprite sheet export guide): https://www.adobe.com/africa/learn/animate/web/export-sprite-sheet
 ## @tutorial(Aseprite`s sprite sheets export formating): https://www.aseprite.org/docs/cli/#filename-format
@@ -37,8 +38,8 @@ signal data_compiled
 
 ##Pattern, what you use if you exports sprite-sheet from Aseprite.[br]
 ##By default, it use something like exporting "pattern" from [b]Adobe Animate[/b] (4 nums at end for seperate frames)[br]
-@export var frames_end_nums: int = 4:
-	set(v): frames_end_nums = v; _update_json()
+@export var frame_num_spliter := &"_":
+	set = set_frame_num_spliter
 
 ## The [enum FrameBehaviourTypes] type of behaviour for [member frame] when it is set.
 @export var frame_behaviour: FrameBehaviourTypes = FrameBehaviourTypes.STOP
@@ -74,24 +75,18 @@ func get_frame_count(symbol_name: String = symbol) -> int:
 	if !frames.has(symbol_name):
 		return 0
 	return frames[symbol_name].size()
-
-## Creates a [String] hint-string of symbol names.
-## [br]Used fo the [member symbol]'s export property, see [method _validate_property].
-func _get_symbols_hint_string() -> String:
-	return ",".join(symbols)
 #endregion
 
 # Everything, whats starts with [set_*]/[_set_*].
 #region SET
 
 ## Sets current [member symbol] to the given [String] [param new_ymbol].
-func set_symbol(new_symbol: String) -> void:
+func set_symbol(new_symbol: String = "") -> void:
 	if symbols.is_empty():
 		await data_compiled
 	if !symbols.has(new_symbol):
-		if new_symbol != "":
-			printerr("Symbol \""+new_symbol+"\" not found!")
-		new_symbol = symbols.get(0)
+		await _load_json()
+
 	
 	symbol = new_symbol
 	set_frame(frame)
@@ -123,7 +118,7 @@ func set_frame(new_frame: int) -> void:
 	
 	# Sets the values
 	frame = new_frame
-	region = vec4_to_rect2(frames[symbol][frame])
+	region = vec4_to_rect2(frames[StringName(symbol)][frame])
 
 ## Sets the [member texture] to the given [Texture2D] [param new_texture].
 func set_texture(new_texture: Texture2D) -> void:
@@ -161,13 +156,19 @@ func _set_json_file(given_file: JSON) -> void:
 func set_split_frames(new: bool):
 	split_frames = new
 	_update_all()
+	symbol = symbols[0]
 	notify_property_list_changed()
+
+func set_frame_num_spliter(char: StringName):
+	frame_num_spliter = char
+	await _update_all()
 
 #endregion
 
 #region UPDATERS
 ## Loads the [member json_file] and gets frame data.
 func _load_json() -> void:
+	if !json_file: return
 	if !json_file.data.has("frames"):
 		printerr("Provided JSON file has no frame data!")
 		return
@@ -187,9 +188,10 @@ func _load_json() -> void:
 			symbolName = chunk["filename"]
 		
 		if split_frames:
-			var reg = RegEx.create_from_string("(?<frame>\\d{%s})$" % frames_end_nums)
-			if reg.search(symbolName):
-				symbolName = symbolName.substr(0, symbolName.length() - frames_end_nums)
+			var reg = RegEx.create_from_string("(?<name>\\S*)%s\\d*" % String(frame_num_spliter))
+			var search := reg.search(symbolName)
+			if search:
+				symbolName = search.get_string("name")
 		
 		if !symbols.has(symbolName):
 			symbols.append(symbolName)
@@ -209,7 +211,7 @@ func _update_json() -> void:
 	if json_file: json_file = load(json_file.resource_path)
 
 func _update_all():
-	_update_json()
+	await _load_json()
 	set_symbol(symbol)
 	notify_property_list_changed()
 
@@ -219,24 +221,15 @@ func _validate_property(property: Dictionary) -> void:
 	match property.name:
 		"symbol":
 			property.hint = PROPERTY_HINT_ENUM
-			property.hint_string = _get_symbols_hint_string()
+			property.hint_string = ",".join(symbols)
 		"frames_end_nums", "frame_behaviour":
 			if !split_frames:
 				property.usage = PROPERTY_USAGE_NO_EDITOR
 		"atlas", "region":
 			property.usage = PROPERTY_USAGE_NO_EDITOR
 		"frame":
-			if frames && frames[StringName(symbol)].size() == 1 || !split_frames:
+			if (frames && frames.get(StringName(symbol), []).size() == 1) || !split_frames:
 				property.usage = PROPERTY_USAGE_NO_EDITOR
-		"symbols_offets":
-			property.hint_string = "%d/%d:%s;%d:" % [
-				TYPE_STRING,
-				PROPERTY_HINT_ENUM,
-				_get_symbols_hint_string(),
-				TYPE_RECT2
-			]
-
-
 
 func vec4_to_rect2(vector: Vector4) -> Rect2:
 	return Rect2(
