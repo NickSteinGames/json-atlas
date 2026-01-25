@@ -36,10 +36,9 @@ signal data_compiled
 ## [br]Set by [method set_frame].
 @export var frame: int = 0: set = set_frame
 
-##Pattern, what you use if you exports sprite-sheet from Aseprite.[br]
-##By default, it use something like exporting "pattern" from [b]Adobe Animate[/b] (4 nums at end for seperate frames)[br]
-@export var frame_num_spliter := &"_":
-	set = set_frame_num_spliter
+## Split char what splits name and frame of the symbol. (don't make '' splitter, you MUST make some sort of )
+@export var frame_num_splitter := &"_":
+	set = set_frame_num_splitter
 
 ## The [enum FrameBehaviourTypes] type of behaviour for [member frame] when it is set.
 @export var frame_behaviour: FrameBehaviourTypes = FrameBehaviourTypes.STOP
@@ -56,6 +55,8 @@ signal data_compiled
 
 ## Stores the [Array] of [Rect2i] ([Vector4]) frames to be used within the animation.
 @export_storage var frames: Dictionary[StringName, PackedVector4Array]
+
+@export_storage var is_adobe := false
 #endregion
 
 
@@ -145,6 +146,7 @@ func set_texture(new_texture: Texture2D) -> void:
 func _set_json_file(given_file: JSON) -> void:
 	var old_json: JSON = json_file
 	json_file = given_file
+	is_adobe = json_file.data.meta.app == "Adobe Animate"
 	if given_file:
 		if !given_file.changed.is_connected(_update_json):
 			given_file.changed.connect(_update_json)
@@ -159,8 +161,8 @@ func set_split_frames(new: bool):
 	symbol = symbols[0]
 	notify_property_list_changed()
 
-func set_frame_num_spliter(char: StringName):
-	frame_num_spliter = char
+func set_frame_num_splitter(char: StringName):
+	frame_num_splitter = char
 	await _update_all()
 
 #endregion
@@ -188,7 +190,11 @@ func _load_json() -> void:
 			symbolName = chunk["filename"]
 		
 		if split_frames:
-			var reg = RegEx.create_from_string("(?<name>\\S*)%s\\d*" % String(frame_num_spliter))
+			var reg: RegEx
+			if is_adobe:
+				reg = RegEx.create_from_string("(?<name>\\S*)\\d{4}")
+			else:
+				reg = RegEx.create_from_string("(?<name>\\S*)%s\\d*" % String(frame_num_splitter))
 			var search := reg.search(symbolName)
 			if search:
 				symbolName = search.get_string("name")
