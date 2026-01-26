@@ -256,10 +256,10 @@ func rect2_to_vec4(rect: Rect2) -> Vector4:
 		rect.size.y
 	)
 
-## Returns an [AtlasTextureJSON] for the given [String] [param source] [memeber texture] path, set to the given [StringName] [param p_symbol] [memeber symbol] name.
-static func get_symbol(source: String, p_symbol: StringName) -> AtlasTextureJSON:
+## Returns an [AtlasTextureJSON] for the given [String] [param source_path] [memeber texture] path, set to the given [StringName] [param symbol_name] [memeber symbol] name.
+static func get_symbol(source_path: String, symbol_name: StringName) -> AtlasTextureJSON:
 	var sprite := AtlasTextureJSON.new()
-	sprite.texture = load(source)
-	sprite.set_symbol(p_symbol)
+	sprite.texture = load(source_path)
+	sprite.set_symbol(symbol_name)
 	
 	return sprite
