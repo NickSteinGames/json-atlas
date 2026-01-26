@@ -30,7 +30,7 @@ signal data_compiled
 
 ##if [code]true[/code], [AtlasTextureJSON] splits [param symbols] and [param symbol`s frame].[br]
 ##Its only find nums at end of [param Symbol name], and if your symbol has nums at end ([code]Frog01[/code], [code]Frog02[/code] eg.), its makes frames for first symbol with same name without nums at end (after removing "frames nums")[br]
-@export var split_frames: bool = true: set = set_split_frames
+@export var split_frames: bool = false: set = set_split_frames
 
 ## The [int] frame of the [member symbol] that will be rendered.
 ## [br]Set by [method set_frame].
@@ -252,3 +252,10 @@ func rect2_to_vec4(rect: Rect2) -> Vector4:
 		rect.size.x,
 		rect.size.y
 	)
+
+static func get_symbol(source: String, symbol: StringName) -> AtlasTextureJSON:
+	var sprite := AtlasTextureJSON.new()
+	sprite.texture = load(source)
+	sprite.set_symbol(symbol)
+	
+	return sprite
