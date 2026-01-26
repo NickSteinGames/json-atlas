@@ -56,6 +56,7 @@ signal data_compiled
 ## Stores the [Array] of [Rect2i] ([Vector4]) frames to be used within the animation.
 @export_storage var frames: Dictionary[StringName, PackedVector4Array]
 
+## Check what [code].json[/code] is expoted from Adobe's software.
 @export_storage var is_adobe := false
 #endregion
 
@@ -237,6 +238,7 @@ func _validate_property(property: Dictionary) -> void:
 			if (frames && frames.get(StringName(symbol), []).size() == 1) || !split_frames:
 				property.usage = PROPERTY_USAGE_NO_EDITOR
 
+## Converts [Vector4] into [Rect2].
 func vec4_to_rect2(vector: Vector4) -> Rect2:
 	return Rect2(
 		vector.x,
@@ -245,6 +247,7 @@ func vec4_to_rect2(vector: Vector4) -> Rect2:
 		vector.w,
 	)
 
+## Converts [Rect2] into [Vector4].
 func rect2_to_vec4(rect: Rect2) -> Vector4:
 	return Vector4(
 		rect.position.x,
@@ -253,6 +256,7 @@ func rect2_to_vec4(rect: Rect2) -> Vector4:
 		rect.size.y
 	)
 
+## Returns instance of [AtlasTextureJSON] with [member texture] seted to [param source] and seted [member symbol] to [param p_symbol]
 static func get_symbol(source: String, p_symbol: StringName) -> AtlasTextureJSON:
 	var sprite := AtlasTextureJSON.new()
 	sprite.texture = load(source)
