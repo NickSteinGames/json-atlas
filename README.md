@@ -46,10 +46,10 @@ Currently supported sprite sheet formats:
 ### Exporting
 
 > [!IMPORTANT]
-> When Exporting from __Aseprite__,
->The `Item Filename` format must be:
+> When Exporting from __Aseprite__, You need make separator for `Tag name` and `Tag Frame`. <br>
+> Recomended `Item Filename`:
 >```
-> {tag}{tagframe0000}
+> {tag}_{tagframe0000}
 >```
 
 > [!IMPORTANT]
