@@ -9,7 +9,7 @@ class_name AtlasTextureJSON
 ##[codeblock lang=text]
 ##{tag}_{tagframe0000}
 ##[/codeblock]
-## or somethin like that. You just need seperator for symbol name and frame.
+## or somethin like that. You just need seperator for symbol name and frame. (only for Aseprite)
 ##
 ## @tutorial(Adobe Animate sprite sheet export guide): https://www.adobe.com/africa/learn/animate/web/export-sprite-sheet
 ## @tutorial(Aseprite`s sprite sheets export formating): https://www.aseprite.org/docs/cli/#filename-format
@@ -253,9 +253,9 @@ func rect2_to_vec4(rect: Rect2) -> Vector4:
 		rect.size.y
 	)
 
-static func get_symbol(source: String, symbol: StringName) -> AtlasTextureJSON:
+static func get_symbol(source: String, p_symbol: StringName) -> AtlasTextureJSON:
 	var sprite := AtlasTextureJSON.new()
 	sprite.texture = load(source)
-	sprite.set_symbol(symbol)
+	sprite.set_symbol(p_symbol)
 	
 	return sprite
